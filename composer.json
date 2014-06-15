@@ -1,0 +1,31 @@
+{
+	"name" : "los/losbase",
+	"description" : "Library with common classes for Los packages",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Leandro Silva",
+			"email" : "leandro@leandrosilva.info",
+			"homepage" : "http://leandrosilva.info"
+		}
+	],
+	"keywords" : [
+		"library",
+		"los",
+		"base",
+		"common"
+	],
+	"license" : [
+		"BSD-3-Clause"
+	],
+	"require" : {
+		"doctrine/doctrine-orm-module" : "0.7.0",
+		"php" : ">=5.4",
+		"zendframework/zendframework" : ">=2.2.1"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"LosBase" : "src"
+		}
+	},
+	"minimum-stability" : "dev"
+}

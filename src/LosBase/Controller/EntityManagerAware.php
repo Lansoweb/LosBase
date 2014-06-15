@@ -1,0 +1,41 @@
+<?php
+namespace LosBase\Controller;
+
+use Doctrine\ORM\EntityManager;
+
+trait EntityManagerAware
+{
+    /**
+     *
+     * @var Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    /**
+     * Seta o EntityManager
+     *
+     * @param EntityManager $em
+     */
+    public function setEntityManager (EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * Retorna o EntityManager
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEntityManager ()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()->get(
+                'doctrine.entitymanager.orm_default');
+        }
+
+        return $this->em;
+    }
+
+}
+
+?>
