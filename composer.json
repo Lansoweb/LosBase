@@ -18,9 +18,9 @@
 		"BSD-3-Clause"
 	],
 	"require" : {
-		"doctrine/doctrine-orm-module" : "0.7.0",
+		"doctrine/doctrine-orm-module" : ">=0.8.0",
 		"php" : ">=5.4",
-		"zendframework/zendframework" : ">=2.2.1"
+		"zendframework/zendframework" : ">=2.3.0"
 	},
 	"autoload" : {
 		"psr-0" : {
