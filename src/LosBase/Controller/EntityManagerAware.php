@@ -16,7 +16,7 @@ trait EntityManagerAware
      *
      * @param EntityManager $em
      */
-    public function setEntityManager (EntityManager $em)
+    public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
     }
@@ -26,7 +26,7 @@ trait EntityManagerAware
      *
      * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager ()
+    public function getEntityManager()
     {
         if (null === $this->em) {
             $this->em = $this->getServiceLocator()->get(
@@ -37,5 +37,3 @@ trait EntityManagerAware
     }
 
 }
-
-?>

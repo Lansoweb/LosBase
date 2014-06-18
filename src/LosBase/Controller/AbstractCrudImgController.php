@@ -12,12 +12,8 @@
  */
 namespace LosBase\Controller;
 
-use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Stdlib\ResponseInterface as Response;
-use Zend\Stdlib\Hydrator\ClassMethods;
-use Doctrine\ORM\EntityManager;
-use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity as DoctrineHydrator;
 
 /**
  * Abstract CRUD Controller
@@ -56,6 +52,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
     {
         $viewModel = parent::listaAction();
         $viewModel->setVariable('imageUrl', $this->getImageUrl());
+
         return $viewModel;
     }
 

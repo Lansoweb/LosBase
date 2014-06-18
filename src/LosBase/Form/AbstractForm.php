@@ -22,6 +22,7 @@ class AbstractForm extends Form
     public function setEventManager(EventManagerInterface $events)
     {
         $this->events = $events;
+
         return $this;
     }
 
@@ -49,6 +50,7 @@ class AbstractForm extends Form
             }
             $this->setEventManager(new EventManager($identifiers));
         }
+
         return $this->events;
     }
 }

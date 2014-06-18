@@ -27,10 +27,10 @@ class Factory extends ZendFactory
     /**
      * Cria um filtro padrão para números inteiros (por exemplo, id)
      *
-     * @param string $nome
-     * @param bool $required
+     * @param  string   $nome
+     * @param  bool     $required
      * @return Ambigous <\Zend\InputFilter\InputInterface,
-     *         \Zend\InputFilter\InputFilterInterface>
+     *                           \Zend\InputFilter\InputFilterInterface>
      */
     public function createInputInt($nome, $required = true)
     {
@@ -48,14 +48,14 @@ class Factory extends ZendFactory
     /**
      * Cria um filtro padrão para strings
      *
-     * @param string $nome
-     * @param bool $required
-     * @param int $min
-     * @param int $max
-     * @param array $filters
-     * @param array $validators
+     * @param  string   $nome
+     * @param  bool     $required
+     * @param  int      $min
+     * @param  int      $max
+     * @param  array    $filters
+     * @param  array    $validators
      * @return Ambigous <\Zend\InputFilter\InputInterface,
-     *         \Zend\InputFilter\InputFilterInterface>
+     *                             \Zend\InputFilter\InputFilterInterface>
      */
     public function createInputString($nome, $required = true, $min = 1, $max = 128, $filters = null, $validators = null)
     {
