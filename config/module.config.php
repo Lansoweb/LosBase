@@ -22,4 +22,20 @@ return array(
             'LosVersion' => 'LosBase\View\Helper\Version'
         )
     ),
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ .'_entity' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\StaticPHPDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+                )
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ .'_entity'
+                )
+            )
+        )
+    )
 );
