@@ -27,6 +27,8 @@ use LosLog\Log\LoggableObject;
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
  * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
+ *
+ * @ORM\MappedSuperclass
  */
 abstract class AbstractEntity extends LoggableObject implements InputFilterAwareInterface
 {
@@ -40,16 +42,26 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
 
     /**
      * Id da entidade na tabela do banco de dados
+     *
+     * @Doctrine\ORM\Mapping\Id
+     * @Doctrine\ORM\Mapping\Column(type="integer");
+     * @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * Created datetime
+     *
+     * @Doctrine\ORM\Mapping\Column(type="datetime")
+     * @Zend\Form\Annotation\Exclude()
      */
     protected $created = '';
 
     /**
      * Updated datetime
+     *
+     * @Doctrine\ORM\Mapping\Column(type="datetime")
+     * @Zend\Form\Annotation\Exclude()
      */
     protected $updated = '';
 
@@ -169,7 +181,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      *
      * @return Zend\InputFilter\InputFilter
      */
-    abstract protected function createInputFilter();
+    protected function createInputFilter() {}
 
     /**
      * Busca o InputFilter ou cria um se não existir
