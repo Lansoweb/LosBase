@@ -28,7 +28,7 @@ use LosLog\Log\LoggableObject;
  * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  *
- * @ORM\MappedSuperclass
+ * @Doctrine\ORM\Mapping\MappedSuperclass
  */
 abstract class AbstractEntity extends LoggableObject implements InputFilterAwareInterface
 {
