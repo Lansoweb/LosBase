@@ -14,7 +14,8 @@ namespace LosBase;
 return array(
     'view_helpers' => array(
         'invokables' => array(
-            'losversion' => 'LosBase\View\Helper\Version'
+            'losversion'            => 'LosBase\View\Helper\Version',
+            'losformelementerrors'  => 'LosBase\Form\View\Helper\FormElementErrors'
         )
     ),
     'view_manager' => array(
