@@ -52,6 +52,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
     {
         $viewModel = parent::listaAction();
         $viewModel->setVariable('imageUrl', $this->getImageUrl());
+        $viewModel->setVariable('imagemPath', $this->getImageUrl());
 
         return $viewModel;
     }
@@ -68,37 +69,40 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $redirect = false;
         }
 
-        $form = $this->getEditForm();
+            if (method_exists($this, 'getEditForm')) {
+            $form = $this->getEditForm();
+        }
+        else {
+            $form = $this->getForm();
 
-        /*
-        $uploaded = new \Zend\Form\Element\Hidden('uploaded');
-        // $uploaded->setValue('');
-        $form->add($uploaded, array(
-            'priority' => - 100
-        ));
+            $uploaded = new \Zend\Form\Element\Hidden('uploaded');
+            // $uploaded->setValue('');
+            $form->add($uploaded, array(
+                'priority' => - 100
+            ));
 
-        $submitElement = new \Zend\Form\Element\Button('submit');
-        $submitElement->setAttributes(array(
-            'type' => 'submit',
-            'class' => 'btn btn-primary'
-        ));
-        $submitElement->setLabel('Salvar');
-        $form->add($submitElement, array(
-            'priority' => - 100
-        ));
+            $submitElement = new \Zend\Form\Element\Button('submit');
+            $submitElement->setAttributes(array(
+                'type' => 'submit',
+                'class' => 'btn btn-primary'
+            ));
+            $submitElement->setLabel('Salvar');
+            $form->add($submitElement, array(
+                'priority' => - 100
+            ));
 
-        $cancelarElement = new \Zend\Form\Element\Button('cancelar');
-        $cancelarElement->setAttributes(array(
-            'type' => 'button',
-            'class' => 'btn',
-            'onclick' => 'top.location="' . $this->url()
-                ->fromRoute($this->getActionRoute('lista')) . '"'
-        ));
-        $cancelarElement->setLabel('Cancelar');
-        $form->add($cancelarElement, array(
-            'priority' => - 100
-        ));
-        */
+            $cancelarElement = new \Zend\Form\Element\Button('cancelar');
+            $cancelarElement->setAttributes(array(
+                'type' => 'button',
+                'class' => 'btn',
+                'onclick' => 'top.location="' . $this->url()
+                    ->fromRoute($this->getActionRoute('lista')) . '"'
+            ));
+            $cancelarElement->setLabel('Cancelar');
+            $form->add($cancelarElement, array(
+                'priority' => - 100
+            ));
+        }
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute()) . ($redirect ? '?redirect=' . $redirect : '');
         $prg = $this->prg($redirectUrl, true);
@@ -114,7 +118,12 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 $em = $this->getEntityManager();
                 $objRepository = $em->getRepository($this->getEntityClass());
                 $entity = $objRepository->find($id);
-                $form->setInputFilter($entity->getInputFilter());
+                if ($entity->getInputFilter() !== null) {
+                    $form->setInputFilter($entity->getInputFilter());
+                }
+                else {
+                    $entity->setInputFilter($form->getInputFilter());
+                }
                 $form->bind($entity);
 
                 $idForm = new \Zend\Form\Element\Hidden('id');
@@ -127,6 +136,14 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 $entity = new $classe();
                 $form->get('id')->setValue(0);
             }
+
+            $this->getEventManager()->trigger('getForm', $this,
+                array(
+                    'form' => $form,
+                    'entityClass' => $this->getEntityClass(),
+                    'id' => $id,
+                    'entity' => $entity
+                ));
 
             return array(
                 'entityForm' => $form,
@@ -147,6 +164,15 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $classe = $this->getEntityClass();
             $entity = new $classe();
         }
+
+        $this->getEventManager()->trigger('getForm', $this,
+            array(
+                'form' => $form,
+                'entityClass' => $this->getEntityClass(),
+                'id' => $id,
+                'entity' => $entity,
+                'post' => $post
+            ));
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
 
@@ -350,7 +376,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
         header('Content-Disposition: inline; filename="files.json"');
         header('X-Content-Type-Options: nosniff');
         header('Vary: Accept');
-        echo json_encode(array('files' => $arqs));
+        echo json_encode($arqs);
         exit();
     }
 

@@ -173,7 +173,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-        throw new \Exception("Not used");
+        $this->inputFilter = $inputFilter;
     }
 
     /**
@@ -181,7 +181,10 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      *
      * @return Zend\InputFilter\InputFilter
      */
-    protected function createInputFilter() {}
+    protected function createInputFilter()
+    {
+        return null;
+    }
 
     /**
      * Busca o InputFilter ou cria um se não existir
