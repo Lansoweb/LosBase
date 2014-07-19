@@ -110,7 +110,7 @@ abstract class AbstractCrudController extends AbstractActionController
 
     /**
      * Retorna a form para o cadastro da entidade
-     *
+     */
     public function getForm($entityClass = null)
     {
         if (null === $entityClass) {
@@ -122,7 +122,7 @@ abstract class AbstractCrudController extends AbstractActionController
          * $cache = $this->getServiceLocator()->get('app_cache');
          * $key = 'form_' .str_replace('\\', '_', $entityClass);
          * if ($cache->hasItem($key)) { //return $cache->getItem($key); }
-         *
+         */
 
         $builder = new \Zend\Form\Annotation\AnnotationBuilder();
         $form = $builder->createForm($entityClass);
@@ -150,7 +150,6 @@ abstract class AbstractCrudController extends AbstractActionController
         // $cache->addItem($key, $form);
         return $form;
     }
-    */
 
     /**
      * Lista as entidades, suporte a paginação, ordenação e busca
@@ -282,37 +281,39 @@ abstract class AbstractCrudController extends AbstractActionController
             $redirect = false;
         }
 
-        $form = $this->getEditForm();
+        if (method_exists($this, 'getEditForm')) {
+            $form = $this->getEditForm();
+        } else {
+            $form = $this->getForm();
 
-        /*
-        $uploaded = new \Zend\Form\Element\Hidden('uploaded');
-        // $uploaded->setValue('');
-        $form->add($uploaded, array(
-            'priority' => - 100
-        ));
+            $uploaded = new \Zend\Form\Element\Hidden('uploaded');
+            // $uploaded->setValue('');
+            $form->add($uploaded, array(
+                'priority' => - 100
+            ));
 
-        $submitElement = new \Zend\Form\Element\Button('submit');
-        $submitElement->setAttributes(array(
-            'type' => 'submit',
-            'class' => 'btn btn-primary'
-        ));
-        $submitElement->setLabel('Salvar');
-        $form->add($submitElement, array(
-            'priority' => - 100
-        ));
+            $submitElement = new \Zend\Form\Element\Button('submit');
+            $submitElement->setAttributes(array(
+                'type' => 'submit',
+                'class' => 'btn btn-primary'
+            ));
+            $submitElement->setLabel('Salvar');
+            $form->add($submitElement, array(
+                'priority' => - 100
+            ));
 
-        $cancelarElement = new \Zend\Form\Element\Button('cancelar');
-        $cancelarElement->setAttributes(array(
-            'type' => 'button',
-            'class' => 'btn',
-            'onclick' => 'top.location="' . $this->url()
-                ->fromRoute($this->getActionRoute('lista')) . '"'
-        ));
-        $cancelarElement->setLabel('Cancelar');
-        $form->add($cancelarElement, array(
-            'priority' => - 100
-        ));
-        */
+            $cancelarElement = new \Zend\Form\Element\Button('cancelar');
+            $cancelarElement->setAttributes(array(
+                'type' => 'button',
+                'class' => 'btn',
+                'onclick' => 'top.location="' . $this->url()
+                    ->fromRoute($this->getActionRoute('lista')) . '"'
+            ));
+            $cancelarElement->setLabel('Cancelar');
+            $form->add($cancelarElement, array(
+                'priority' => - 100
+            ));
+        }
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute()) . ($redirect ? '?redirect=' . $redirect : '');
         $prg = $this->prg($redirectUrl, true);
@@ -328,7 +329,12 @@ abstract class AbstractCrudController extends AbstractActionController
                 $em = $this->getEntityManager();
                 $objRepository = $em->getRepository($this->getEntityClass());
                 $entity = $objRepository->find($id);
-                $form->setInputFilter($entity->getInputFilter());
+                if ($entity->getInputFilter() !== null) {
+                    $form->setInputFilter($entity->getInputFilter());
+                }
+                else {
+                    $entity->setInputFilter($form->getInputFilter());
+                }
                 $form->bind($entity);
 
                 $idForm = new \Zend\Form\Element\Hidden('id');
@@ -341,6 +347,14 @@ abstract class AbstractCrudController extends AbstractActionController
                 $entity = new $classe();
                 $form->get('id')->setValue(0);
             }
+
+            $this->getEventManager()->trigger('getForm', $this,
+                array(
+                    'form' => $form,
+                    'entityClass' => $this->getEntityClass(),
+                    'id' => $id,
+                    'entity' => $entity
+                ));
 
             return array(
                 'entityForm' => $form,
@@ -361,6 +375,15 @@ abstract class AbstractCrudController extends AbstractActionController
             $classe = $this->getEntityClass();
             $entity = new $classe();
         }
+
+        $this->getEventManager()->trigger('getForm', $this,
+            array(
+                'form' => $form,
+                'entityClass' => $this->getEntityClass(),
+                'id' => $id,
+                'entity' => $entity,
+                'post' => $post
+            ));
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
 
