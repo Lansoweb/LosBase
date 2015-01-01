@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\Form\Annotation;
 use LosLog\Log\LoggableObject;
 
 /**
@@ -37,6 +38,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      * Filtro usado para preencher os dados vindos de uma form por exemplo
      *
      * @var Zend\InputFilter\InputFilter
+     * @Annotation\Exclude()
      */
     protected $inputFilter;
 
@@ -46,6 +48,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      * @Doctrine\ORM\Mapping\Id
      * @Doctrine\ORM\Mapping\Column(type="integer");
      * @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
+     * @Annotation\Attributes({"type":"hidden","id":"id"})
      */
     protected $id;
 
@@ -53,7 +56,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      * Created datetime
      *
      * @Doctrine\ORM\Mapping\Column(type="datetime")
-     * @Zend\Form\Annotation\Exclude()
+     * @Annotation\Exclude()
      */
     protected $created = '';
 
@@ -61,7 +64,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
      * Updated datetime
      *
      * @Doctrine\ORM\Mapping\Column(type="datetime")
-     * @Zend\Form\Annotation\Exclude()
+     * @Annotation\Exclude()
      */
     protected $updated = '';
 
