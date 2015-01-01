@@ -64,8 +64,7 @@ abstract class AbstractCrudController extends AbstractActionController
     public function getEntityManager()
     {
         if (null === $this->em) {
-            $this->em = $this->getServiceLocator()
-                ->get('doctrine.entitymanager.orm_default');
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
 
         return $this->em;
@@ -81,7 +80,7 @@ abstract class AbstractCrudController extends AbstractActionController
     {
         if (null == $this->entityService) {
             $entityServiceClass = $this->getEntityServiceClass();
-            if (!class_exists($entityServiceClass)) {
+            if (! class_exists($entityServiceClass)) {
                 throw new \RuntimeException("Classe $entityServiceClass inexistente!");
             }
             $this->entityService = new $entityServiceClass();
@@ -94,11 +93,29 @@ abstract class AbstractCrudController extends AbstractActionController
     /**
      * Nome da rota raiz do controlador
      */
-    abstract public function getRouteName();
+    public function getRouteName()
+    {
+        $module_array = explode('\\', get_class($this));
+        $module = $module_array[0];
 
-    abstract public function getEntityClass();
+        return strtolower($module);
+    }
 
-    abstract public function getEntityServiceClass();
+    public function getEntityClass()
+    {
+        $module_array = explode('\\', get_class($this));
+        $module = $module_array[0];
+
+        return "$module\Entity\\$module";
+    }
+
+    public function getEntityServiceClass()
+    {
+        $module_array = explode('\\', get_class($this));
+        $module = $module_array[0];
+
+        return "$module\Service\\$module";
+    }
 
     /**
      * Campo default para fazer o sort das entidades
@@ -331,8 +348,7 @@ abstract class AbstractCrudController extends AbstractActionController
                 $entity = $objRepository->find($id);
                 if ($entity->getInputFilter() !== null) {
                     $form->setInputFilter($entity->getInputFilter());
-                }
-                else {
+                } else {
                     $entity->setInputFilter($form->getInputFilter());
                 }
                 $form->bind($entity);
@@ -348,18 +364,17 @@ abstract class AbstractCrudController extends AbstractActionController
                 $form->get('id')->setValue(0);
             }
 
-            $this->getEventManager()->trigger('getForm', $this,
-                array(
-                    'form' => $form,
-                    'entityClass' => $this->getEntityClass(),
-                    'id' => $id,
-                    'entity' => $entity
-                ));
+            $this->getEventManager()->trigger('getForm', $this, array(
+                'form' => $form,
+                'entityClass' => $this->getEntityClass(),
+                'id' => $id,
+                'entity' => $entity
+            ));
 
             return array(
                 'entityForm' => $form,
                 'redirect' => $redirect,
-                'entity' => $entity,
+                'entity' => $entity
             );
         }
 
@@ -376,14 +391,13 @@ abstract class AbstractCrudController extends AbstractActionController
             $entity = new $classe();
         }
 
-        $this->getEventManager()->trigger('getForm', $this,
-            array(
-                'form' => $form,
-                'entityClass' => $this->getEntityClass(),
-                'id' => $id,
-                'entity' => $entity,
-                'post' => $post
-            ));
+        $this->getEventManager()->trigger('getForm', $this, array(
+            'form' => $form,
+            'entityClass' => $this->getEntityClass(),
+            'id' => $id,
+            'entity' => $entity,
+            'post' => $post
+        ));
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
 
