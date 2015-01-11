@@ -323,8 +323,8 @@ abstract class AbstractCrudController extends AbstractActionController
             $cancelarElement->setAttributes(array(
                 'type' => 'button',
                 'class' => 'btn btn-default',
-                'onclick' => 'top.location="' . $this->url()
-                    ->fromRoute($this->getActionRoute('lista')) . '"'
+                'onclick' => 'top.location=\'' . $this->url()
+                    ->fromRoute($this->getActionRoute('lista')) . '\''
             ));
             $cancelarElement->setLabel('Cancelar');
             $form->add($cancelarElement, array(
