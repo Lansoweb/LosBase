@@ -43,8 +43,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         ));
         if ($entity->getInputFilter() !== null) {
             $form->setInputFilter($entity->getInputFilter());
-        }
-        else {
+        } else {
             $entity->setInputFilter($form->getInputFilter());
         }
         $form->bind($entity);

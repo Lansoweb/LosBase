@@ -14,6 +14,7 @@ namespace LosBase\Entity;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
+use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Form\Annotation;
@@ -29,7 +30,7 @@ use LosLog\Log\LoggableObject;
  * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  *
- * @Doctrine\ORM\Mapping\MappedSuperclass
+ * @ORM\MappedSuperclass
  */
 abstract class AbstractEntity extends LoggableObject implements InputFilterAwareInterface
 {
@@ -55,7 +56,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
     /**
      * Created datetime
      *
-     * @Doctrine\ORM\Mapping\Column(type="datetime")
+     * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
     protected $created = '';
@@ -63,7 +64,7 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
     /**
      * Updated datetime
      *
-     * @Doctrine\ORM\Mapping\Column(type="datetime")
+     * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
     protected $updated = '';
@@ -207,7 +208,10 @@ abstract class AbstractEntity extends LoggableObject implements InputFilterAware
     {
         $builder = new ClassMetadataBuilder($metadata);
         $builder->setMappedSuperClass();
-        $builder->createField('id', 'integer')->isPrimaryKey()->generatedValue()->build();
+        $builder->createField('id', 'integer')
+            ->isPrimaryKey()
+            ->generatedValue()
+            ->build();
         $builder->addField('created', 'datetime');
         $builder->addField('updated', 'datetime');
     }

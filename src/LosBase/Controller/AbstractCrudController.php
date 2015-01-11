@@ -322,7 +322,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $cancelarElement = new \Zend\Form\Element\Button('cancelar');
             $cancelarElement->setAttributes(array(
                 'type' => 'button',
-                'class' => 'btn',
+                'class' => 'btn btn-default',
                 'onclick' => 'top.location="' . $this->url()
                     ->fromRoute($this->getActionRoute('lista')) . '"'
             ));

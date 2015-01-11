@@ -71,8 +71,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
 
             if (method_exists($this, 'getEditForm')) {
             $form = $this->getEditForm();
-        }
-        else {
+        } else {
             $form = $this->getForm();
 
             $uploaded = new \Zend\Form\Element\Hidden('uploaded');
@@ -120,8 +119,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 $entity = $objRepository->find($id);
                 if ($entity->getInputFilter() !== null) {
                     $form->setInputFilter($entity->getInputFilter());
-                }
-                else {
+                } else {
                     $entity->setInputFilter($form->getInputFilter());
                 }
                 $form->bind($entity);

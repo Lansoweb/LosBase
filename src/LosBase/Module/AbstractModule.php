@@ -43,6 +43,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     {
         $reflector = new \ReflectionClass(get_class($this));
         $filename = $reflector->getFileName();
+
         return dirname($filename);
     }
 
@@ -52,6 +53,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     public function getNamespace()
     {
         $reflector = new \ReflectionClass(get_class($this));
+
         return $reflector->getNamespaceName();
     }
 
@@ -102,7 +104,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     /**
      * Retorna todas as opções dentro do namespace espeficicado
      *
-     * @param string $namespace
+     * @param  string $namespace
      * @return array
      */
     public function getOptions($namespace = 'options')
@@ -144,8 +146,8 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
      * $module->getOption('option2.key1');
      * Returns: (string) "sub key1"
      *
-     * @param string $option
-     * @param mixed $default
+     * @param  string $option
+     * @param  mixed  $default
      * @return mixed
      */
     public function getOption($option, $default = null, $namespace = 'options')
@@ -161,13 +163,13 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     /**
      * Busca uma opção do array
      *
-     * @param unknown_type $options
-     * @param array $option
-     * @param unknown_type $default
-     * @param unknown_type $origOption
+     * @param  unknown_type             $options
+     * @param  array                    $option
+     * @param  unknown_type             $default
+     * @param  unknown_type             $origOption
      * @throws InvalidArgumentException
-     * @return Ambigous <unknown,
-     *         \Zend\Config\Config>|\Zend\Config\Config|unknown
+     * @return Ambigous                 <unknown,
+     *                                             \Zend\Config\Config>|\Zend\Config\Config|unknown
      */
     private function getOptionFromArray($options, array $option, $default, $origOption)
     {
