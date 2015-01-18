@@ -1,15 +1,16 @@
 <?php
-namespace LosBase\Controller;
+namespace LosBase\Entity;
 
 use Doctrine\ORM\EntityManager;
 
-trait EntityManagerAware
+trait EntityManagerAwareTrait
 {
+
     /**
      *
      * @var Doctrine\ORM\EntityManager
      */
-    protected $em;
+    private $em;
 
     /**
      * Seta o EntityManager
@@ -29,11 +30,9 @@ trait EntityManagerAware
     public function getEntityManager()
     {
         if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get(
-                'doctrine.entitymanager.orm_default');
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
 
         return $this->em;
     }
-
 }

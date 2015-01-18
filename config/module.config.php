@@ -6,7 +6,7 @@
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
+ * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 namespace LosBase;
@@ -36,6 +36,14 @@ return array(
                 'drivers' => array(
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ .'_entity'
                 )
+            )
+        ),
+        'configuration' => array(
+            'orm_default' => array(
+                'types' => array(
+                    'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
+                    'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
+                ),
             )
         )
     )

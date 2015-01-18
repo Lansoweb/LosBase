@@ -7,3 +7,5 @@ extras/documentation
 /.buildpath
 /.project
 /composer.phar
+/composer.lock
+/vendor

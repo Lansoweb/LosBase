@@ -40,7 +40,7 @@ class AbstractForm extends Form
             if (isset($this->eventIdentifier)) {
                 if ((is_string($this->eventIdentifier))
                     || (is_array($this->eventIdentifier))
-                    || ($this->eventIdentifier instanceof Traversable)
+                    || ($this->eventIdentifier instanceof \Traversable)
                 ) {
                     $identifiers = array_unique($identifiers + (array) $this->eventIdentifier);
                 } elseif (is_object($this->eventIdentifier)) {

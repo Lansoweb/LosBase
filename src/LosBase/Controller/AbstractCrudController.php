@@ -7,18 +7,21 @@
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
+ * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 namespace LosBase\Controller;
 
-use Zend\View\Model\JsonModel;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use Zend\Stdlib\ResponseInterface as Response;
 use Zend\Stdlib\Hydrator\ClassMethods;
-use Doctrine\ORM\EntityManager;
+use Zend\Form\Annotation\AnnotationBuilder;
+use Zend\Paginator\Paginator;
 use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity as DoctrineHydrator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
+use Doctrine\ORM\QueryBuilder;
+use LosBase\ORM\Tools\Pagination\Paginator as LosPaginator;
+use LosBase\Entity\EntityManagerAwareTrait;
 
 /**
  * Abstract CRUD Controller
@@ -27,48 +30,27 @@ use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity as DoctrineHydrator;
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
+ * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 abstract class AbstractCrudController extends AbstractActionController
 {
-
-    /**
-     *
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
+    use EntityManagerAwareTrait;
 
     /**
      * Entity Service
      *
      * @var mixed
      */
-    protected $entityService;
+    private $entityService;
 
-    /**
-     * Sets the EntityManager
-     *
-     * @param EntityManager $em
-     */
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
+    protected $defaultSort = 'id';
 
-    /**
-     * Retorna o EntityManager
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
+    protected $defaultOrder = 'asc';
 
-        return $this->em;
-    }
+    protected $defaultPageSize = 20;
+
+    protected $paginatorRange = 15;
 
     /**
      * Retorna o serviço da entidade
@@ -118,14 +100,6 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     /**
-     * Campo default para fazer o sort das entidades
-     */
-    public function defaultSortBy()
-    {
-        return 'nome';
-    }
-
-    /**
      * Retorna a form para o cadastro da entidade
      */
     public function getForm($entityClass = null)
@@ -134,14 +108,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $entityClass = $this->getEntityClass();
         }
 
-        /*
-         * @var $cache \Zend\Cache\Storage\Adapter\Filesystem
-         * $cache = $this->getServiceLocator()->get('app_cache');
-         * $key = 'form_' .str_replace('\\', '_', $entityClass);
-         * if ($cache->hasItem($key)) { //return $cache->getItem($key); }
-         */
-
-        $builder = new \Zend\Form\Annotation\AnnotationBuilder();
+        $builder = new AnnotationBuilder();
         $form = $builder->createForm($entityClass);
 
         $hasEntity = false;
@@ -164,110 +131,78 @@ abstract class AbstractCrudController extends AbstractActionController
         } else {
             $form->setHydrator(new ClassMethods());
         }
-        // $cache->addItem($key, $form);
+
+        $submitElement = new \Zend\Form\Element\Button('submit');
+        $submitElement->setAttributes(array(
+            'type' => 'submit',
+            'class' => 'btn btn-primary'
+        ));
+        $submitElement->setLabel('Salvar');
+        $form->add($submitElement, array(
+            'priority' => - 100
+        ));
+
+        $cancelarElement = new \Zend\Form\Element\Button('cancelar');
+        $cancelarElement->setAttributes(array(
+            'type' => 'button',
+            'class' => 'btn btn-default',
+            'onclick' => 'top.location=\'' . $this->url()
+                ->fromRoute($this->getActionRoute('list')) . '\''
+        ));
+        $cancelarElement->setLabel('Cancelar');
+        $form->add($cancelarElement, array(
+            'priority' => - 100
+        ));
+
         return $form;
     }
+
+    public function handleSearch(QueryBuilder $qb)
+    {}
 
     /**
      * Lista as entidades, suporte a paginação, ordenação e busca
      */
-    public function listaAction()
+    public function listAction()
     {
         $pm = $this->getPluginManager();
 
-        $page = $this->getRequest()->getQuery('page', '-1');
-        $limit = $this->getRequest()->getQuery('limit', '0');
-        $sort = $this->getRequest()->getQuery('sort', $this->defaultSortBy());
-        $order = $this->getRequest()->getQuery('order', 'ASC');
-        $search = $this->getRequest()->getQuery('search', 'false');
+        $page = $this->getRequest()->getQuery('page', 0);
+        $limit = $this->getRequest()->getQuery('limit', $this->defaultPageSize);
+        $sort = $this->getRequest()->getQuery('sort', $this->defaultSort);
+        $order = $this->getRequest()->getQuery('order', $this->defaultOrder);
 
         if (empty($sort)) {
-            $sort = $this->defaultSortBy();
+            $sort = $this->defaultSort;
         }
 
+        $offset = $limit * $page - $limit;
+        if ($offset < 0) {
+            $offset = 0;
+        }
+
+        /* @var $qb \Doctrine\ORM\QueryBuilder */
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->add('select', 'e')
             ->add('from', $this->getEntityClass() . ' e')
-            ->orderBy('e.' . $sort, $order);
+            ->orderBy('e.' . $sort, $order)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
 
-        if ('true' == $search) {
-            $field = $this->getRequest()->getQuery('searchField', $this->defaultSortBy());
-            $oper = $this->getRequest()->getQuery('searchOper', 'eq');
-            $por = $this->getRequest()->getQuery('searchString', '');
-            if ($oper == 'cn') {
-                // contém
-                $qb->add('where', $qb->expr()
-                    ->like("e." . $field, $qb->expr()
-                    ->literal('%' . $por . '%')));
-            } else {
-                // igual
-                $qb->add('where', 'e.' . $field . ' = ?1')->setParameter(1, $por);
-            }
-        }
+        $this->handleSearch($qb);
 
-        $q = $qb->getQuery();
-        $q->useResultCache(true, 120, 'list_' . $this->getRouteName());
-        $entities = $q->getResult();
+        $paginator = new Paginator(new DoctrinePaginator(new LosPaginator($qb, false)));
+        $paginator->setDefaultItemCountPerPage($limit);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($this->paginatorRange);
 
-        $total_entities = count($entities);
-
-        if ($page >= 0 && $limit > 0) {
-
-            $total = ceil($total_entities / $limit);
-            if ($page > $total)
-                $page = $total;
-            $start = $limit * $page - $limit;
-            if ($start < 0) {
-                $start = 0;
-            }
-
-            $qb->setFirstResult($start);
-            $qb->setMaxResults($limit);
-            $q = $qb->getQuery();
-            $q->useResultCache(true, 120);
-            $entities = $q->getResult();
-        } else {
-            $page = 1;
-            $total = 1;
-        }
-
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            return new JsonModel($this->createJsonResponse($entities, $page, $total, $total_entities));
-            // exit;
-        }
-
-        return new ViewModel(array(
-            'entities' => $entities,
-            'flashMessages' => $this->flashMessenger()->getMessages()
-        ));
-    }
-
-    /**
-     * Cria uma resposta JSON da lista das entidades
-     *
-     * @param  array  $entities
-     * @param  int    $page
-     * @param  int    $total
-     * @param  int    $total_entities
-     * @return string
-     */
-    public function createJsonResponse($entities, $page, $total, $total_entities)
-    {
-        $ret = array();
-        $ret['page'] = "$page";
-        $ret['total'] = "$total";
-        $ret['records'] = $total_entities;
-        $i = 0;
-        foreach ($entities as $entity) {
-            $ret['rows'][$i]['cell'] = array(
-                $entity->getId(),
-                $entity->getNome()
-            );
-            $i ++;
-        }
-
-        return $ret;
-        // return json_encode($ret);
+        return [
+            'paginator' => $paginator,
+            'sort' => $sort,
+            'order' => $order,
+            'page' => $page,
+            'query' => $this->params()->fromQuery()
+        ];
     }
 
     /**
@@ -286,53 +221,81 @@ abstract class AbstractCrudController extends AbstractActionController
         return $this->getRouteName() . '/' . $action;
     }
 
+    public function addAction()
+    {
+        $request = $this->getRequest();
+
+        if (method_exists($this, 'getAddForm')) {
+            $form = $this->getAddForm();
+        } else {
+            $form = $this->getForm();
+        }
+
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute());
+        $prg = $this->prg($redirectUrl, true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } elseif ($prg === false) {
+            $classe = $this->getEntityClass();
+            $entity = new $classe();
+
+            $this->getEventManager()->trigger('getForm', $this, array(
+                'form' => $form,
+                'entityClass' => $this->getEntityClass(),
+                'entity' => $entity
+            ));
+
+            return [
+                'entityForm' => $form,
+                'entity' => $entity
+            ];
+        }
+
+        $post = $prg;
+
+        $classe = $this->getEntityClass();
+        $entity = new $classe();
+
+        $this->getEventManager()->trigger('getForm', $this, array(
+            'form' => $form,
+            'entityClass' => $this->getEntityClass(),
+            'entity' => $entity,
+            'post' => $post
+        ));
+
+        $savedEntity = $this->getEntityService()->save($form, $post, $entity);
+
+        if (! $savedEntity) {
+            return array(
+                'entityForm' => $form,
+                'entity' => $entity
+            );
+        }
+
+        $entity = $savedEntity;
+
+        $this->flashMessenger()->addMessage($this->getServiceLocator()
+            ->get('translator')
+            ->translate('Operação realizada com sucesso!'));
+
+        return $this->redirect()->toRoute($this->getActionRoute('list'));
+    }
+
     /**
-     * Insere ou Altera uma entidade
+     * Altera uma entidade
      */
     public function editAction()
     {
         $request = $this->getRequest();
-        if ($request->getQuery()->get('redirect')) {
-            $redirect = $request->getQuery()->get('redirect');
-        } else {
-            $redirect = false;
-        }
 
         if (method_exists($this, 'getEditForm')) {
             $form = $this->getEditForm();
         } else {
             $form = $this->getForm();
-
-            $uploaded = new \Zend\Form\Element\Hidden('uploaded');
-            // $uploaded->setValue('');
-            $form->add($uploaded, array(
-                'priority' => - 100
-            ));
-
-            $submitElement = new \Zend\Form\Element\Button('submit');
-            $submitElement->setAttributes(array(
-                'type' => 'submit',
-                'class' => 'btn btn-primary'
-            ));
-            $submitElement->setLabel('Salvar');
-            $form->add($submitElement, array(
-                'priority' => - 100
-            ));
-
-            $cancelarElement = new \Zend\Form\Element\Button('cancelar');
-            $cancelarElement->setAttributes(array(
-                'type' => 'button',
-                'class' => 'btn btn-default',
-                'onclick' => 'top.location=\'' . $this->url()
-                    ->fromRoute($this->getActionRoute('lista')) . '\''
-            ));
-            $cancelarElement->setLabel('Cancelar');
-            $form->add($cancelarElement, array(
-                'priority' => - 100
-            ));
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getActionRoute()) . ($redirect ? '?redirect=' . $redirect : '');
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute());
         $prg = $this->prg($redirectUrl, true);
 
         if ($prg instanceof Response) {
@@ -342,27 +305,21 @@ abstract class AbstractCrudController extends AbstractActionController
                 ->getRouteMatch()
                 ->getParam('id', 0);
 
-            if ($id > 0) {
-                $em = $this->getEntityManager();
-                $objRepository = $em->getRepository($this->getEntityClass());
-                $entity = $objRepository->find($id);
-                if ($entity->getInputFilter() !== null) {
-                    $form->setInputFilter($entity->getInputFilter());
-                } else {
-                    $entity->setInputFilter($form->getInputFilter());
-                }
-                $form->bind($entity);
-
-                $idForm = new \Zend\Form\Element\Hidden('id');
-                $idForm->setValue($id);
-                $form->add($idForm, array(
-                    'priority' => - 100
-                ));
+            $em = $this->getEntityManager();
+            $objRepository = $em->getRepository($this->getEntityClass());
+            $entity = $objRepository->find($id);
+            if (method_exists($entity, 'getInputFilter') && $entity->getInputFilter() !== null) {
+                $form->setInputFilter($entity->getInputFilter());
             } else {
-                $classe = $this->getEntityClass();
-                $entity = new $classe();
-                $form->get('id')->setValue(0);
+                $entity->setInputFilter($form->getInputFilter());
             }
+            $form->bind($entity);
+
+            $idForm = new \Zend\Form\Element\Hidden('id');
+            $idForm->setValue($id);
+            $form->add($idForm, array(
+                'priority' => - 100
+            ));
 
             $this->getEventManager()->trigger('getForm', $this, array(
                 'form' => $form,
@@ -373,7 +330,6 @@ abstract class AbstractCrudController extends AbstractActionController
 
             return array(
                 'entityForm' => $form,
-                'redirect' => $redirect,
                 'entity' => $entity
             );
         }
@@ -381,15 +337,10 @@ abstract class AbstractCrudController extends AbstractActionController
         $post = $prg;
 
         $id = $post['id'];
-        if ($id > 0) {
-            $em = $this->getEntityManager();
-            $objRepository = $em->getRepository($this->getEntityClass());
+        $em = $this->getEntityManager();
+        $objRepository = $em->getRepository($this->getEntityClass());
 
-            $entity = $objRepository->find($id);
-        } else {
-            $classe = $this->getEntityClass();
-            $entity = new $classe();
-        }
+        $entity = $objRepository->find($id);
 
         $this->getEventManager()->trigger('getForm', $this, array(
             'form' => $form,
@@ -404,15 +355,9 @@ abstract class AbstractCrudController extends AbstractActionController
         if (! $savedEntity) {
             return array(
                 'entityForm' => $form,
-                'redirect' => $redirect,
                 'entity' => $entity
             );
         }
-
-        $cacheDriver = $this->getEntityManager()
-            ->getConfiguration()
-            ->getQueryCacheImpl();
-        $cacheDriver->delete('lista_' . $this->getRouteName());
 
         $entity = $savedEntity;
 
@@ -420,11 +365,11 @@ abstract class AbstractCrudController extends AbstractActionController
             ->get('translator')
             ->translate('Operação realizada com sucesso!'));
 
-        return $this->redirect()->toRoute($this->getActionRoute('lista'));
+        return $this->redirect()->toRoute($this->getActionRoute('list'));
     }
 
     public function indexAction()
     {
-        return new ViewModel();
+        return [];
     }
 }

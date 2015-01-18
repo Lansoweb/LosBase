@@ -7,7 +7,7 @@
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
+ * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 namespace LosBase\Service;
@@ -15,6 +15,7 @@ namespace LosBase\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use LosBase\EventManager\EventProvider;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Define os serviços básicos de entidade
@@ -23,17 +24,12 @@ use LosBase\EventManager\EventProvider;
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
+ * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwareInterface
 {
-
-    /**
-     *
-     * @var ServiceLocator
-     */
-    protected $serviceLocator;
+    use ServiceLocatorAwareTrait;
 
     public function save($form, $data, $entity)
     {
@@ -41,7 +37,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             'entity' => $entity,
             'form' => $form
         ));
-        if ($entity->getInputFilter() !== null) {
+        if (method_exists($entity, 'getInputFilter') && $entity->getInputFilter() !== null) {
             $form->setInputFilter($entity->getInputFilter());
         } else {
             $entity->setInputFilter($form->getInputFilter());
@@ -76,26 +72,4 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         return $entity;
     }
 
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return User
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-
-        return $this;
-    }
 }
