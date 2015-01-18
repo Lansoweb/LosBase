@@ -22,6 +22,8 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
 use Doctrine\ORM\QueryBuilder;
 use LosBase\ORM\Tools\Pagination\Paginator as LosPaginator;
 use LosBase\Entity\EntityManagerAwareTrait;
+use LosBase\Validator\NoEntityExists;
+use LosBase\Validator\NoOtherEntityExists;
 
 /**
  * Abstract CRUD Controller
@@ -51,6 +53,10 @@ abstract class AbstractCrudController extends AbstractActionController
     protected $defaultPageSize = 20;
 
     protected $paginatorRange = 15;
+
+    protected $uniqueField = null;
+
+    protected $uniqueEntityMessage = null;
 
     /**
      * Retorna o serviço da entidade
@@ -99,6 +105,51 @@ abstract class AbstractCrudController extends AbstractActionController
         return "$module\Service\\$module";
     }
 
+    protected function getAddForm()
+    {
+        $form = $this->getForm();
+
+        if ($this->uniqueField != null) {
+            $validator = new NoEntityExists([
+                'object_repository' => $this->getEntityManager()->getRepository($this->getEntityClass()),
+                'fields' => $this->uniqueField
+            ]);
+            if ($this->uniqueEntityMessage != null) {
+                $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
+            }
+            $form->getInputFilter()
+                ->get($this->uniqueField)
+                ->getValidatorChain()
+                ->attach($validator);
+        }
+
+        return $form;
+    }
+
+    protected function getEditForm()
+    {
+        $form = $this->getForm();
+
+        if ($this->uniqueField != null) {
+            $validator = new NoOtherEntityExists([
+                'object_repository' => $this->getEntityManager()->getRepository($this->getEntityClass()),
+                'fields' => $this->uniqueField,
+                'id' => $this->getEvent()
+                    ->getRouteMatch()
+                    ->getParam('id', 0)
+            ]);
+            if ($this->uniqueEntityMessage != null) {
+                $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
+            }
+            $form->getInputFilter()
+                ->get($this->uniqueField)
+                ->getValidatorChain()
+                ->attach($validator);
+        }
+
+        return $form;
+    }
+
     /**
      * Retorna a form para o cadastro da entidade
      */
@@ -131,6 +182,11 @@ abstract class AbstractCrudController extends AbstractActionController
         } else {
             $form->setHydrator(new ClassMethods());
         }
+
+        $form->add(array(
+            'type' => 'Zend\Form\Element\Csrf',
+            'name' => 'csrf'
+        ));
 
         $submitElement = new \Zend\Form\Element\Button('submit');
         $submitElement->setAttributes(array(
@@ -231,7 +287,8 @@ abstract class AbstractCrudController extends AbstractActionController
             $form = $this->getForm();
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getActionRoute());
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
+
         $prg = $this->prg($redirectUrl, true);
 
         if ($prg instanceof Response) {
@@ -279,7 +336,7 @@ abstract class AbstractCrudController extends AbstractActionController
             ->get('translator')
             ->translate('Operação realizada com sucesso!'));
 
-        return $this->redirect()->toRoute($this->getActionRoute('list'));
+        return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
     }
 
     /**
@@ -295,31 +352,40 @@ abstract class AbstractCrudController extends AbstractActionController
             $form = $this->getForm();
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getActionRoute());
+        $id = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('id', 0);
+
+        $form->add([
+            'type' => 'Zend\Form\Element\Hidden',
+            'name' => 'id',
+            'attributes' => [
+                'id' => 'id',
+                'value' => $id
+            ],
+            'filters' => array(
+                array(
+                    'name' => 'Int'
+                )
+            ),
+            'validators' => array(
+                array(
+                    'name' => 'Digits'
+                )
+            )
+        ]);
+
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
         $prg = $this->prg($redirectUrl, true);
 
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-            $id = $this->getEvent()
-                ->getRouteMatch()
-                ->getParam('id', 0);
 
             $em = $this->getEntityManager();
             $objRepository = $em->getRepository($this->getEntityClass());
             $entity = $objRepository->find($id);
-            if (method_exists($entity, 'getInputFilter') && $entity->getInputFilter() !== null) {
-                $form->setInputFilter($entity->getInputFilter());
-            } else {
-                $entity->setInputFilter($form->getInputFilter());
-            }
             $form->bind($entity);
-
-            $idForm = new \Zend\Form\Element\Hidden('id');
-            $idForm->setValue($id);
-            $form->add($idForm, array(
-                'priority' => - 100
-            ));
 
             $this->getEventManager()->trigger('getForm', $this, array(
                 'form' => $form,
@@ -365,7 +431,7 @@ abstract class AbstractCrudController extends AbstractActionController
             ->get('translator')
             ->translate('Operação realizada com sucesso!'));
 
-        return $this->redirect()->toRoute($this->getActionRoute('list'));
+        return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
     }
 
     public function indexAction()

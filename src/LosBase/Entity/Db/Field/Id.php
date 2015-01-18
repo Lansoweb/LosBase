@@ -1,10 +1,10 @@
 <?php
-namespace LosBase\Entity;
+namespace LosBase\Entity\Db\Field;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Form\Annotation;
+use Zend\Form\Annotation as Form;
 
-trait IdentifableTrait
+trait Id
 {
 
     /**
@@ -13,7 +13,7 @@ trait IdentifableTrait
      * @ORM\Id
      * @ORM\Column(type="integer");
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Annotation\Attributes({"type":"hidden","id":"id"})
+     * @Form\Exclude()
      */
     protected $id;
 
@@ -31,7 +31,7 @@ trait IdentifableTrait
      * Setter id
      *
      * @param int $id
-     * @return \LosBase\Entity\IdentifableTrait
+     * @return \LosBase\Db\Field\Id
      */
     public function setId($id)
     {

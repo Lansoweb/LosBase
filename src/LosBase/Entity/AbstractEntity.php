@@ -13,6 +13,7 @@
 namespace LosBase\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 /**
  * Definição de uma classe abstrata para as Entidades
@@ -25,10 +26,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  *
  * @ORM\MappedSuperclass
+ * @Form\Name("entity") Not necessary, but there must be at least one line with Form to use the "use" statement without complains from IDE and cs-fixer
  */
 abstract class AbstractEntity
 {
-    use IdentifableTrait, CreatedUpdatedTrait;
+    use Db\Field\Id, Db\Field\Created, Db\Field\Updated;
 
     /**
      * Construtor

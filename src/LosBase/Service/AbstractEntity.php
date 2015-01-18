@@ -13,9 +13,8 @@
 namespace LosBase\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use LosBase\EventManager\EventProvider;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use LosBase\EventManager\EventProvider;
 
 /**
  * Define os serviços básicos de entidade
@@ -37,11 +36,6 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             'entity' => $entity,
             'form' => $form
         ));
-        if (method_exists($entity, 'getInputFilter') && $entity->getInputFilter() !== null) {
-            $form->setInputFilter($entity->getInputFilter());
-        } else {
-            $entity->setInputFilter($form->getInputFilter());
-        }
         $form->bind($entity);
         $form->setData($data);
         if (! $form->isValid()) {
