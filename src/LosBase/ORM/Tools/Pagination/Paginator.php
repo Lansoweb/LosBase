@@ -15,7 +15,10 @@ class Paginator extends DoctrinePaginator
     public function __construct(QueryBuilder $query, $fetchJoinCollection = true)
     {
         $countQuery = clone ($query);
-        $countQuery = $countQuery->select('count(e) as c')->getQuery();
+        $countQuery = $countQuery->select('count(e) as c')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery();
 
         $this->countQuery = $countQuery;
         parent::__construct($query, $fetchJoinCollection);
