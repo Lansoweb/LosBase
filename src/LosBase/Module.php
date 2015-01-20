@@ -31,23 +31,23 @@ class Module implements AutoloaderProviderInterface,
 
     public function getServiceConfig()
     {
-        return array(
-            'factories' => array(
+        return [
+            'factories' => [
                 // TODO: create classes and use them on critical places
                 'app_cache' => function ($sm) {
-                    $cache = \Zend\Cache\StorageFactory::factory(array(
+                    $cache = \Zend\Cache\StorageFactory::factory([
                         'adapter' => 'filesystem',
-                        'plugins' => array(
-                            'exception_handler' => array(
+                        'plugins' => [
+                            'exception_handler' => [
                                 'throw_exceptions' => false
-                            ),
+                            ],
                             'serializer'
-                        )
-                    ));
+                        ]
+                    ]);
 
-                    $cache->setOptions(array(
+                    $cache->setOptions([
                         'cache_dir' => 'data/cache'
-                    ));
+                    ]);
 
                     return $cache;
                 },
@@ -56,22 +56,22 @@ class Module implements AutoloaderProviderInterface,
 
                     return new DoctrineEntity($em);
                 }
-            )
-        );
+            ]
+        ];
     }
 
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
+        return [
+            'Zend\Loader\ClassMapAutoloader' => [
                 __DIR__ . '/../../autoload_classmap.php'
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+            ],
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function getConfig()

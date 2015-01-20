@@ -56,16 +56,16 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
+        return [
+            'Zend\Loader\ClassMapAutoloader' => [
                 $this->getDir() . '/../../autoload_classmap.php'
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+            ],
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     $this->getNamespace() => $this->getDir() . '/../../src/' . $this->getNamespace()
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function getConfig()

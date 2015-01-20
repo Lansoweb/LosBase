@@ -32,17 +32,17 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
 
     public function save($form, $data, $entity)
     {
-        $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, array(
+        $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, [
             'entity' => $entity,
             'form' => $form
-        ));
+        ]);
         $form->bind($entity);
         $form->setData($data);
         if (! $form->isValid()) {
-            $this->getEventManager()->trigger(__FUNCTION__ . '.invalid', $this, array(
+            $this->getEventManager()->trigger(__FUNCTION__ . '.invalid', $this, [
                 'entity' => $entity,
                 'form' => $form
-            ));
+            ]);
 
             return false;
         }
@@ -52,16 +52,16 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             $entity = $em->merge($entity);
             $entity->setUpdated(new \DateTime('now'));
         }
-        $this->getEventManager()->trigger(__FUNCTION__, $this, array(
+        $this->getEventManager()->trigger(__FUNCTION__, $this, [
             'entity' => $entity,
             'form' => $form
-        ));
+        ]);
         $em->persist($entity);
         $em->flush();
-        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, array(
+        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, [
             'entity' => $entity,
             'form' => $form
-        ));
+        ]);
 
         return $entity;
     }
@@ -71,9 +71,9 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         if (!is_object($entity)) {
             throw new \InvalidArgumentException(sprintf("Entity argument must be an object, %s given.", \gettype($entity)));
         }
-        $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, array(
+        $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, [
             'entity' => $entity
-        ));
+        ]);
 
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
@@ -84,9 +84,9 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             $em->flush();
         }
 
-        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, array(
+        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, [
             'entityId' => $id
-        ));
+        ]);
 
         return $entity;
     }

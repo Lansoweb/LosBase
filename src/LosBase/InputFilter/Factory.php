@@ -34,15 +34,15 @@ class Factory extends ZendFactory
      */
     public function createInputInt($nome, $required = true)
     {
-        return $this->createInput(array(
+        return $this->createInput([
             'name' => $nome,
             'required' => $required,
-            'filters' => array(
-                array(
+            'filters' => [
+                [
                     'name' => 'Int'
-                )
-            )
-        ));
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -60,53 +60,53 @@ class Factory extends ZendFactory
     public function createInputString($nome, $required = true, $min = 1, $max = 128, $filters = null, $validators = null)
     {
         if (null === $filters) {
-            $filters = array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim')
-            );
+            $filters = [
+                ['name' => 'StripTags'],
+                ['name' => 'StringTrim']
+            ];
         }
         if (null === $validators) {
-            $validators = array(
-                array(
+            $validators = [
+                [
                     'name' => 'StringLength',
-                    'options' => array(
+                    'options' => [
                         'encoding' => 'UTF-8',
                         'min' => $min,
                         'max' => $max
-                    )
-                )
-            );
+                    ]
+                ]
+            ];
         }
 
-        return $this->createInput(array(
+        return $this->createInput([
             'name' => $nome,
             'required' => $required,
             'filters' => $filters,
             'validators' => $validators
-        ));
+        ]);
     }
 
     public function createInputEmail($nome, $required = true, $filters = null, $validators = null)
     {
         if (null === $filters) {
-            $filters = array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim')
-            );
+            $filters = [
+                ['name' => 'StripTags'],
+                ['name' => 'StringTrim']
+            ];
         }
         if (null === $validators) {
-            $validators = array(
-                array(
+            $validators = [
+                [
                     'name' => 'EmailAddress'
-                )
-            );
+                ]
+            ];
         }
 
-        return $this->createInput(array(
+        return $this->createInput([
             'name' => $nome,
             'required' => $required,
             'filters' => $filters,
             'validators' => $validators
-        ));
+        ]);
     }
 }

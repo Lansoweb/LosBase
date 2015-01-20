@@ -46,7 +46,7 @@ class Util
         }
 
         // O único realmente seguro de se confiar é o REMOTE_ADDR
-        $ips = array();
+        $ips = [];
         $validator = new \Zend\Validator\Ip();
 
         $remote = $_SERVER['REMOTE_ADDR'];
@@ -57,7 +57,7 @@ class Util
             return $remote;
         }
 
-        $ips = array($remote);
+        $ips = [$remote];
 
         if (! empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];

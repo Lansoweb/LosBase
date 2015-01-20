@@ -36,7 +36,7 @@ class AbstractForm extends Form
     public function getEventManager()
     {
         if (!$this->events instanceof EventManagerInterface) {
-            $identifiers = array(__CLASS__, get_called_class());
+            $identifiers = [__CLASS__, get_called_class()];
             if (isset($this->eventIdentifier)) {
                 if ((is_string($this->eventIdentifier))
                     || (is_array($this->eventIdentifier))

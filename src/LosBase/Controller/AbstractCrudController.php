@@ -191,32 +191,32 @@ abstract class AbstractCrudController extends AbstractActionController
             $form->setHydrator(new ClassMethods());
         }
 
-        $form->add(array(
+        $form->add([
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf'
-        ));
+        ]);
 
         $submitElement = new \Zend\Form\Element\Button('submit');
-        $submitElement->setAttributes(array(
+        $submitElement->setAttributes([
             'type' => 'submit',
             'class' => 'btn btn-primary'
-        ));
+        ]);
         $submitElement->setLabel('Salvar');
-        $form->add($submitElement, array(
+        $form->add($submitElement, [
             'priority' => - 100
-        ));
+        ]);
 
         $cancelarElement = new \Zend\Form\Element\Button('cancelar');
-        $cancelarElement->setAttributes(array(
+        $cancelarElement->setAttributes([
             'type' => 'button',
             'class' => 'btn btn-default',
             'onclick' => 'top.location=\'' . $this->url()
                 ->fromRoute($this->getActionRoute('list')) . '\''
-        ));
+        ]);
         $cancelarElement->setLabel('Cancelar');
-        $form->add($cancelarElement, array(
+        $form->add($cancelarElement, [
             'priority' => - 100
-        ));
+        ]);
 
         return $form;
     }
@@ -305,11 +305,11 @@ abstract class AbstractCrudController extends AbstractActionController
             $classe = $this->getEntityClass();
             $entity = new $classe();
 
-            $this->getEventManager()->trigger('getForm', $this, array(
+            $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
                 'entity' => $entity
-            ));
+            ]);
 
             return [
                 'entityForm' => $form,
@@ -322,20 +322,20 @@ abstract class AbstractCrudController extends AbstractActionController
         $classe = $this->getEntityClass();
         $entity = new $classe();
 
-        $this->getEventManager()->trigger('getForm', $this, array(
+        $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
             'entity' => $entity,
             'post' => $post
-        ));
+        ]);
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
 
         if (! $savedEntity) {
-            return array(
+            return [
                 'entityForm' => $form,
                 'entity' => $entity
-            );
+            ];
         }
 
         $entity = $savedEntity;
@@ -371,16 +371,16 @@ abstract class AbstractCrudController extends AbstractActionController
                 'id' => 'id',
                 'value' => $id
             ],
-            'filters' => array(
-                array(
+            'filters' => [
+                [
                     'name' => 'Int'
-                )
-            ),
-            'validators' => array(
-                array(
+                ]
+            ],
+            'validators' => [
+                [
                     'name' => 'Digits'
-                )
-            )
+                ]
+            ]
         ]);
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
@@ -395,17 +395,17 @@ abstract class AbstractCrudController extends AbstractActionController
             $entity = $objRepository->find($id);
             $form->bind($entity);
 
-            $this->getEventManager()->trigger('getForm', $this, array(
+            $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
                 'id' => $id,
                 'entity' => $entity
-            ));
+            ]);
 
-            return array(
+            return [
                 'entityForm' => $form,
                 'entity' => $entity
-            );
+            ];
         }
 
         $post = $prg;
@@ -416,21 +416,21 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $entity = $objRepository->find($id);
 
-        $this->getEventManager()->trigger('getForm', $this, array(
+        $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
             'id' => $id,
             'entity' => $entity,
             'post' => $post
-        ));
+        ]);
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
 
         if (! $savedEntity) {
-            return array(
+            return [
                 'entityForm' => $form,
                 'entity' => $entity
-            );
+            ];
         }
 
         $entity = $savedEntity;
@@ -473,9 +473,9 @@ abstract class AbstractCrudController extends AbstractActionController
             $objRepository = $em->getRepository($this->getEntityClass());
             $entity = $objRepository->find($id);
 
-            return array(
+            return [
                 'entity' => $entity
-            );
+            ];
         }
 
         $post = $prg;

@@ -11,40 +11,40 @@
  */
 namespace LosBase;
 
-return array(
-    'view_helpers' => array(
-        'invokables' => array(
+return [
+    'view_helpers' => [
+        'invokables' => [
             'losversion'            => 'LosBase\View\Helper\Version',
             'losformelementerrors'  => 'LosBase\Form\View\Helper\FormElementErrors'
-        )
-    ),
-    'view_manager' => array(
-        'helper_map' => array(
+        ]
+    ],
+    'view_manager' => [
+        'helper_map' => [
             'LosVersion' => 'LosBase\View\Helper\Version'
-        )
-    ),
-    'doctrine' => array(
-        'driver' => array(
-            __NAMESPACE__ .'_entity' => array(
+        ]
+    ],
+    'doctrine' => [
+        'driver' => [
+            __NAMESPACE__ .'_entity' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\StaticPHPDriver',
                 'cache' => 'array',
-                'paths' => array(
+                'paths' => [
                     __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
+                ]
+            ],
+            'orm_default' => [
+                'drivers' => [
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ .'_entity'
-                )
-            )
-        ),
-        'configuration' => array(
-            'orm_default' => array(
-                'types' => array(
+                ]
+            ]
+        ],
+        'configuration' => [
+            'orm_default' => [
+                'types' => [
                     'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
                     'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
-                ),
-            )
-        )
-    )
-);
+                ],
+            ]
+        ]
+    ]
+];

@@ -12,7 +12,5 @@
  * @copyright Copyright (c) 2011-2013 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
-$conf = array(
-);
 
-return array('losbase' => $conf);
+return ['losbase' => []];
