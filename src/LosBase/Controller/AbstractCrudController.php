@@ -435,7 +435,7 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $entity = $savedEntity;
 
-        $this->flashMessenger()->addMessage($this->getServiceLocator()
+        $this->flashMessenger()->addSuccessMessage($this->getServiceLocator()
             ->get('translator')
             ->translate($this->successEditMessage));
 
