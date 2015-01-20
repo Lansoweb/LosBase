@@ -297,7 +297,7 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
 
-        $prg = $this->prg($redirectUrl, true);
+        $prg = $this->fileprg($form, $redirectUrl, true);
 
         if ($prg instanceof Response) {
             return $prg;
@@ -384,7 +384,7 @@ abstract class AbstractCrudController extends AbstractActionController
         ]);
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
-        $prg = $this->prg($redirectUrl, true);
+        $prg = $this->fileprg($form, $redirectUrl, true);
 
         if ($prg instanceof Response) {
             return $prg;
