@@ -66,4 +66,28 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         return $entity;
     }
 
+    public function delete($entity)
+    {
+        if (!is_object($entity)) {
+            throw new \InvalidArgumentException(sprintf("Entity argument must be an object, %s given.", \gettype($entity)));
+        }
+        $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, array(
+            'entity' => $entity
+        ));
+
+        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+
+        $id = 0;
+        if ($entity->getId() > 0) {
+            $id = $entity->getId();
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, array(
+            'entityId' => $id
+        ));
+
+        return $entity;
+    }
 }

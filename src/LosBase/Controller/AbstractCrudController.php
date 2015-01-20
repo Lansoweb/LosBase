@@ -58,6 +58,14 @@ abstract class AbstractCrudController extends AbstractActionController
 
     protected $uniqueEntityMessage = null;
 
+    protected $successAddMessage = 'Operação realizada com sucesso!';
+
+    protected $successEditMessage = 'Operação realizada com sucesso!';
+
+    protected $successDeleteMessage = 'Operação realizada com sucesso!';
+
+    protected $errorDeleteMessage = 'Erro ao excluir entidade!';
+
     /**
      * Retorna o serviço da entidade
      *
@@ -332,9 +340,9 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $entity = $savedEntity;
 
-        $this->flashMessenger()->addMessage($this->getServiceLocator()
+        $this->flashMessenger()->addSuccessMessage($this->getServiceLocator()
             ->get('translator')
-            ->translate('Operação realizada com sucesso!'));
+            ->translate($this->successAddMessage));
 
         return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
     }
@@ -429,9 +437,70 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $this->flashMessenger()->addMessage($this->getServiceLocator()
             ->get('translator')
-            ->translate('Operação realizada com sucesso!'));
+            ->translate($this->successEditMessage));
 
         return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
+    }
+
+    protected function validateDelete($post)
+    {
+        if (is_array($post) && array_key_exists('confirm', $post)) {
+            $confirm = $post['confirm'];
+
+            if ($confirm == "1")
+                return true;
+        }
+
+        return false;
+    }
+
+    public function deleteAction()
+    {
+        $request = $this->getRequest();
+
+        $id = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('id', 0);
+
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
+        $prg = $this->prg($redirectUrl, true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } elseif ($prg === false) {
+
+            $em = $this->getEntityManager();
+            $objRepository = $em->getRepository($this->getEntityClass());
+            $entity = $objRepository->find($id);
+
+            return array(
+                'entity' => $entity
+            );
+        }
+
+        $post = $prg;
+
+        $em = $this->getEntityManager();
+        $objRepository = $em->getRepository($this->getEntityClass());
+        $entity = $objRepository->find($id);
+
+        if ($this->validateDelete($post)) {
+            if ($this->getEntityService()->delete($entity)) {
+                $this->flashMessenger()->addSuccessMessage($this->getServiceLocator()
+                    ->get('translator')
+                    ->translate($this->successDeleteMessage));
+
+                return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
+            }
+        }
+
+        $this->flashMessenger()->addErrorMessage($this->getServiceLocator()
+            ->get('translator')
+            ->translate($this->errorDeleteMessage));
+
+        return [
+            'entity' => $entity
+        ];
     }
 
     public function indexAction()
