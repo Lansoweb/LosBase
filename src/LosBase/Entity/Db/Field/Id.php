@@ -30,7 +30,7 @@ trait Id
     /**
      * Setter id
      *
-     * @param int $id
+     * @param  int                  $id
      * @return \LosBase\Db\Field\Id
      */
     public function setId($id)

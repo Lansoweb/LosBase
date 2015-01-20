@@ -28,7 +28,7 @@ trait Created
     /**
      * Setter for $created
      *
-     * @param  DateTime $created
+     * @param  DateTime                        $created
      * @return LosBase\Entity\Db\Field\Created
      */
     public function setCreated($created)

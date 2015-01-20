@@ -12,7 +12,6 @@
  */
 namespace LosBase\Module;
 
-use InvalidArgumentException;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\LocatorRegisteredInterface;
 
