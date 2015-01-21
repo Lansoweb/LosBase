@@ -383,17 +383,17 @@ abstract class AbstractCrudController extends AbstractActionController
             ]
         ]);
 
+        $em = $this->getEntityManager();
+        $objRepository = $em->getRepository($this->getEntityClass());
+        $entity = $objRepository->find($id);
+        $form->bind($entity);
+
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
         $prg = $this->fileprg($form, $redirectUrl, true);
 
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-
-            $em = $this->getEntityManager();
-            $objRepository = $em->getRepository($this->getEntityClass());
-            $entity = $objRepository->find($id);
-            $form->bind($entity);
 
             $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
@@ -408,23 +408,14 @@ abstract class AbstractCrudController extends AbstractActionController
             ];
         }
 
-        $post = $prg;
-
-        $id = $post['id'];
-        $em = $this->getEntityManager();
-        $objRepository = $em->getRepository($this->getEntityClass());
-
-        $entity = $objRepository->find($id);
-
         $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
             'id' => $id,
-            'entity' => $entity,
-            'post' => $post
+            'entity' => $entity
         ]);
 
-        $savedEntity = $this->getEntityService()->save($form, $post, $entity);
+        $savedEntity = $this->getEntityService()->save($form, $entity);
 
         if (! $savedEntity) {
             return [
@@ -432,8 +423,6 @@ abstract class AbstractCrudController extends AbstractActionController
                 'entity' => $entity
             ];
         }
-
-        $entity = $savedEntity;
 
         $this->flashMessenger()->addSuccessMessage($this->getServiceLocator()
             ->get('translator')

@@ -30,14 +30,12 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
 {
     use ServiceLocatorAwareTrait;
 
-    public function save($form, $data, $entity)
+    public function save($form, $entity)
     {
         $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, [
             'entity' => $entity,
             'form' => $form
         ]);
-        $form->bind($entity);
-        $form->setData($data);
         if (! $form->isValid()) {
             $this->getEventManager()->trigger(__FUNCTION__ . '.invalid', $this, [
                 'entity' => $entity,
@@ -68,7 +66,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
 
     public function delete($entity)
     {
-        if (!is_object($entity)) {
+        if (! is_object($entity)) {
             throw new \InvalidArgumentException(sprintf("Entity argument must be an object, %s given.", \gettype($entity)));
         }
         $this->getEventManager()->trigger(__FUNCTION__ . '.init', $this, [
