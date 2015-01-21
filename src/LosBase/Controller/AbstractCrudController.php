@@ -295,15 +295,16 @@ abstract class AbstractCrudController extends AbstractActionController
             $form = $this->getForm();
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
+        $classe = $this->getEntityClass();
+        $entity = new $classe();
+        $form->bind($entity);
 
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
         $prg = $this->fileprg($form, $redirectUrl, true);
 
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-            $classe = $this->getEntityClass();
-            $entity = new $classe();
 
             $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
@@ -317,19 +318,13 @@ abstract class AbstractCrudController extends AbstractActionController
             ];
         }
 
-        $post = $prg;
-
-        $classe = $this->getEntityClass();
-        $entity = new $classe();
-
         $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
-            'entity' => $entity,
-            'post' => $post
+            'entity' => $entity
         ]);
 
-        $savedEntity = $this->getEntityService()->save($form, $post, $entity);
+        $savedEntity = $this->getEntityService()->save($form, $entity);
 
         if (! $savedEntity) {
             return [
@@ -337,8 +332,6 @@ abstract class AbstractCrudController extends AbstractActionController
                 'entity' => $entity
             ];
         }
-
-        $entity = $savedEntity;
 
         $this->flashMessenger()->addSuccessMessage($this->getServiceLocator()
             ->get('translator')
