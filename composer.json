@@ -7,9 +7,9 @@
         "zendframework/zendframework" : "~2.3"
     },
     "suggest": {
-        "loslog": "los/loslog for logging",
-        "losui": "los/losui for twitter bootstrap 3 styling, jquery, chosen libraries"
-    },
+        "los/loslog": "los/loslog for logging",
+        "los/losui": "los/losui for twitter bootstrap 3 styling, jquery, chosen and other libraries"
+    },    
     "authors" : [ 
         {
             "name" : "Leandro Silva",
