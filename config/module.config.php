@@ -12,10 +12,13 @@
 namespace LosBase;
 
 return [
+    'losbase' => [
+        'enable_console' => false
+    ],
     'view_helpers' => [
         'invokables' => [
-            'losversion'            => 'LosBase\View\Helper\Version',
-            'losformelementerrors'  => 'LosBase\Form\View\Helper\FormElementErrors'
+            'losversion' => 'LosBase\View\Helper\Version',
+            'losformelementerrors' => 'LosBase\Form\View\Helper\FormElementErrors'
         ]
     ],
     'view_manager' => [
@@ -25,16 +28,16 @@ return [
     ],
     'doctrine' => [
         'driver' => [
-            __NAMESPACE__ .'_entity' => [
-                'class' => 'Doctrine\ORM\Mapping\Driver\StaticPHPDriver',
+            'LosBase_entity' => [
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => [
-                    __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
+                    __DIR__ . '/../src/LosBase/Entity'
                 ]
             ],
             'orm_default' => [
                 'drivers' => [
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ .'_entity'
+                    'LosBase\Entity' => 'LosBase_entity'
                 ]
             ]
         ],
@@ -42,8 +45,28 @@ return [
             'orm_default' => [
                 'types' => [
                     'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
-                    'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
-                ],
+                    'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType'
+                ]
+            ]
+        ]
+    ],
+    'controllers' => array(
+        'invokables' => array(
+            'LosBase\Controller\Create' => 'LosBase\Controller\CreateController'
+        )
+    ),
+    'console' => [
+        'router' => [
+            'routes' => [
+                'losbase-create-module' => [
+                    'options' => [
+                        'route' => 'create crud <name> [<path>]',
+                        'defaults' => [
+                            'controller' => 'LosBase\Controller\Create',
+                            'action' => 'crud'
+                        ]
+                    ]
+                ]
             ]
         ]
     ]

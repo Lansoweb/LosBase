@@ -14,6 +14,9 @@ namespace LosBase;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\LocatorRegisteredInterface;
 use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
+use Zend\Console\Adapter\AdapterInterface as Console;
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\EventManager\EventInterface;
 
 /**
  * Module definition
@@ -26,8 +29,14 @@ use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
  * @license http://leandrosilva.info/licenca-bsd New BSD license
  */
 class Module implements AutoloaderProviderInterface,
-        LocatorRegisteredInterface
+        LocatorRegisteredInterface, ConsoleUsageProviderInterface
 {
+
+    private $sm;
+    public function onBootstrap(EventInterface $e)
+    {
+        $this->sm = $e->getApplication()->getServiceManager();
+    }
 
     public function getServiceConfig()
     {
@@ -77,5 +86,18 @@ class Module implements AutoloaderProviderInterface,
     public function getConfig()
     {
         return include __DIR__ . '/../../config/module.config.php';
+    }
+
+
+    public function getConsoleUsage(Console $console)
+    {
+        $config = $this->sm->get('config');
+        if(!\array_key_exists('losbase', $config) || !\array_key_exists('enable_console', $config['losbase']) || !$config['losbase']['enable_console']){
+            return null;
+        }
+
+        return [
+            'los create crud <name> [<path>]' => 'Creates a new CRUD module'
+        ];
     }
 }

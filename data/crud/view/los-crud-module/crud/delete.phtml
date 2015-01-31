@@ -1,0 +1,17 @@
+<form method="post" name="formDelete" action="<?= $this->losurl()->from('__MODULEDASHEDNAME__/delete',[],true) ?>">
+<input type="hidden" name="confirm" value="1">
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="alert alert-danger">Please, confirm the deletion of "<strong><?= $this->entity->getId() ?></strong>"?</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <button type="submit" class="btn btn-danger">Confirm</button>
+        <a href="<?= $this->losurl()->from('__MODULEDASHEDNAME__/list',[],true) ?>" class="btn btn-default">Cancel</a>
+    </div>
+</div>
+
+</form>

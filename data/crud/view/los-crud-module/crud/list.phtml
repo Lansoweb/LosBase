@@ -1,0 +1,26 @@
+
+<table id="list" class="table table-hover table-striped">
+<thead>
+    <tr>
+        <th class="col-xs-11">Id</th>
+        <th class="col-xs-1"><a href="<?php echo $this->losUrl()->from('__MODULEDASHEDNAME__/add',[],true)?>" class="btn btn-sm btn-success pull-right"><?= $this->losIcon('glyphicon-plus') ?></a></th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($this->paginator as $entity):?>
+        <tr class="linha">
+            <td><?= $entity->getId()?></td>
+            <td class="text-right">
+                <a href="<?php echo $this->losUrl()->from('__MODULEDASHEDNAME__/edit',['id'=>$entity->getId()], true)?>" class="btn btn-xs btn-warning"><?= $this->losIcon('glyphicon-edit') ?></a>
+                <a href="<?php echo $this->losUrl()->from('__MODULEDASHEDNAME__/delete',['id'=>$entity->getId()], true)?>" class="btn btn-xs btn-danger"><?= $this->losIcon('glyphicon-trash') ?></a>
+            </td>
+        </tr>
+    <?php endforeach;?>
+</tbody>
+</table>
+
+<?php if ($this->paginator->count() > 1):?>
+<div class="row">
+    <div class="col-xs-12 text-center"><?= $this->losPaginationControl($this->paginator,'Sliding',null,['query'=>$this->query]); ?></div>
+</div>
+<?php endif?>
