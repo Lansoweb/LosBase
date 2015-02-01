@@ -46,7 +46,7 @@ return [
                 'types' => [
                     'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
                     'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
-                    'preco' => 'LosBase\DBAL\Types\PrecoType'
+                    'brprice' => 'LosBase\DBAL\Types\BrPriceType'
                 ]
             ]
         ]

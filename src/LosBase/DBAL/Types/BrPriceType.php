@@ -4,7 +4,7 @@ namespace LosBase\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\DecimalType;
 
-class PrecoType extends DecimalType
+class BrPriceType extends DecimalType
 {
 
     /**
