@@ -48,7 +48,9 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         $entity = $form->getData();
         if ($entity->getId() > 0) {
             $entity = $em->merge($entity);
-            $entity->setUpdated(new \DateTime('now'));
+            if (\method_exists($entity, "setUpdated")) {
+                $entity->setUpdated(new \DateTime('now'));
+            }
         }
         $this->getEventManager()->trigger(__FUNCTION__, $this, [
             'entity' => $entity,
