@@ -45,7 +45,8 @@ return [
             'orm_default' => [
                 'types' => [
                     'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
-                    'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType'
+                    'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
+                    'preco' => 'LosBase\DBAL\Types\PrecoType'
                 ]
             ]
         ]
