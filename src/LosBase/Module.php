@@ -31,7 +31,6 @@ use Zend\EventManager\EventInterface;
 class Module implements AutoloaderProviderInterface,
         LocatorRegisteredInterface, ConsoleUsageProviderInterface
 {
-
     private $sm;
     public function onBootstrap(EventInterface $e)
     {
@@ -48,14 +47,14 @@ class Module implements AutoloaderProviderInterface,
                         'adapter' => 'filesystem',
                         'plugins' => [
                             'exception_handler' => [
-                                'throw_exceptions' => false
+                                'throw_exceptions' => false,
                             ],
-                            'serializer'
-                        ]
+                            'serializer',
+                        ],
                     ]);
 
                     $cache->setOptions([
-                        'cache_dir' => 'data/cache'
+                        'cache_dir' => 'data/cache',
                     ]);
 
                     return $cache;
@@ -64,7 +63,7 @@ class Module implements AutoloaderProviderInterface,
                     $em = $sm->get('doctrine.entitymanager.orm_default');
 
                     return new DoctrineEntity($em);
-                }
+                },
             ]
         ];
     }
@@ -73,27 +72,26 @@ class Module implements AutoloaderProviderInterface,
     {
         return [
             'Zend\Loader\ClassMapAutoloader' => [
-                __DIR__ . '/../../autoload_classmap.php'
+                __DIR__.'/../../autoload_classmap.php',
             ],
             'Zend\Loader\StandardAutoloader' => [
                 'namespaces' => [
-                    __NAMESPACE__ => __DIR__
-                ]
+                    __NAMESPACE__ => __DIR__,
+                ],
             ]
         ];
     }
 
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        return include __DIR__.'/../../config/module.config.php';
     }
-
 
     public function getConsoleUsage(Console $console)
     {
         $config = $this->sm->get('config');
-        if(!\array_key_exists('losbase', $config) || !\array_key_exists('enable_console', $config['losbase']) || !$config['losbase']['enable_console']){
-            return null;
+        if (!\array_key_exists('losbase', $config) || !\array_key_exists('enable_console', $config['losbase']) || !$config['losbase']['enable_console']) {
+            return;
         }
 
         return [

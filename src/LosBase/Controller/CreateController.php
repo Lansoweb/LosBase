@@ -9,7 +9,6 @@ use Zend\Code\Generator\ValueGenerator;
 
 class CreateController extends AbstractActionController
 {
-
     public function crudAction()
     {
         $console = $this->getServiceLocator()->get('console');
@@ -36,7 +35,7 @@ class CreateController extends AbstractActionController
         mkdir("$path/module/$name/src/$name/Service", 0777, true);
         mkdir("$path/module/$name/view/$viewfolder/crud", 0777, true);
 
-        $crudDir = __DIR__ . '/../../../data/crud';
+        $crudDir = __DIR__.'/../../../data/crud';
         $files = [
             "config/module.config.php" => "config/module.config.php",
             "autoload_classmap.php" => "autoload_classmap.php",
@@ -50,11 +49,11 @@ class CreateController extends AbstractActionController
             "view/$viewfolder/crud/add.phtml" => "view/los-crud-module/crud/add.phtml",
             "view/$viewfolder/crud/delete.phtml" => "view/los-crud-module/crud/delete.phtml",
             "view/$viewfolder/crud/edit.phtml" => "view/los-crud-module/crud/edit.phtml",
-            "view/$viewfolder/crud/list.phtml" => "view/los-crud-module/crud/list.phtml"
+            "view/$viewfolder/crud/list.phtml" => "view/los-crud-module/crud/list.phtml",
         ];
 
         foreach ($files as $destFile => $origFile) {
-            \file_put_contents("$path/module/$name/$destFile", $this->handleFile($crudDir . "/$origFile", $name, $viewfolder));
+            \file_put_contents("$path/module/$name/$destFile", $this->handleFile($crudDir."/$origFile", $name, $viewfolder));
         }
 
         // Add the module in application.config.php
@@ -72,7 +71,7 @@ class CreateController extends AbstractActionController
 EOD;
             $generator = new ValueGenerator();
             $generator->setValue($application);
-            $content .= 'return ' . $generator . ";\n";
+            $content .= 'return '.$generator.";\n";
             file_put_contents("$path/config/application.config.php", $content);
         }
         if ($path === '.') {
@@ -87,6 +86,7 @@ EOD;
         $file = \file_get_contents($fileName);
         $out = \str_replace('__MODULEDASHEDNAME__', $moduleDashedName, $file);
         $out = \str_replace('__MODULENAME__', $moduleName, $out);
+
         return $out;
     }
 
@@ -94,7 +94,8 @@ EOD;
     {
         $m = new ConsoleModel();
         $m->setErrorLevel(2);
-        $m->setResult($msg . PHP_EOL);
+        $m->setResult($msg.PHP_EOL);
+
         return $m;
     }
 }

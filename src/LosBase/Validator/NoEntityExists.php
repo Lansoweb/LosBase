@@ -27,7 +27,6 @@ use DoctrineModule\Validator\NoObjectExists;
  */
 class NoEntityExists extends NoObjectExists
 {
-
     private $additionalFields = null;
 
     public function __construct(array $options)
@@ -45,7 +44,7 @@ class NoEntityExists extends NoObjectExists
             $value = (array) $value;
             foreach ($this->additionalFields as $field) {
                 if (! isset($context[$field])) {
-                    throw new InvalidArgumentException('Campo "' . $field . '"não especificado em additionalFields');
+                    throw new InvalidArgumentException('Campo "'.$field.'"não especificado em additionalFields');
                 }
                 $value[] = $context[$field];
             }

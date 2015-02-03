@@ -7,7 +7,6 @@ use Doctrine\ORM\NoResultException;
 
 class Paginator extends DoctrinePaginator
 {
-
     private $countQuery;
 
     private $count;

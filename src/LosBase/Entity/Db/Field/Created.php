@@ -6,7 +6,6 @@ use Zend\Form\Annotation as Form;
 
 trait Created
 {
-
     /**
      * Created datetime
      *

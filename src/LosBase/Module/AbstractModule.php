@@ -27,7 +27,6 @@ use Zend\ModuleManager\Feature\LocatorRegisteredInterface;
  */
 abstract class AbstractModule implements AutoloaderProviderInterface, LocatorRegisteredInterface
 {
-
     /**
      * Retorna o diretório atual
      */
@@ -58,18 +57,18 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     {
         return [
             'Zend\Loader\ClassMapAutoloader' => [
-                $this->getDir() . '/../../autoload_classmap.php'
+                $this->getDir().'/../../autoload_classmap.php',
             ],
             'Zend\Loader\StandardAutoloader' => [
                 'namespaces' => [
-                    $this->getNamespace() => $this->getDir() . '/../../src/' . $this->getNamespace()
-                ]
+                    $this->getNamespace() => $this->getDir().'/../../src/'.$this->getNamespace(),
+                ],
             ]
         ];
     }
 
     public function getConfig()
     {
-        return include $this->getDir() . '/../../config/module.config.php';
+        return include $this->getDir().'/../../config/module.config.php';
     }
 }

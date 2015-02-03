@@ -7,23 +7,22 @@ use Doctrine\DBAL\Types\DateTimeType;
 
 class UtcDateTimeType extends DateTimeType
 {
-
-     /**
+    /**
       * @param DateTime $value
       * @param Doctrine\DBAL\Platforms\AbstractPlatform $platform
       * @return string
       */
      public function convertToDatabaseValue($value, AbstractPlatform $platform)
      {
-        if ($value === null) {
-            return null;
-        }
-        $formatString = $platform->getDateTimeFormatString();
+         if ($value === null) {
+             return;
+         }
+         $formatString = $platform->getDateTimeFormatString();
 
-        $formatted = $value->setTimezone(new \DateTimeZone('UTC'))->format($formatString);
+         $formatted = $value->setTimezone(new \DateTimeZone('UTC'))->format($formatString);
 
-        return $formatted;
-    }
+         return $formatted;
+     }
 
     /**
      * @param  string                                $value
@@ -34,7 +33,7 @@ class UtcDateTimeType extends DateTimeType
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return null;
+            return;
         }
 
         $val = \DateTime::createFromFormat(

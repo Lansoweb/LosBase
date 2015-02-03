@@ -120,7 +120,7 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($this->uniqueField != null) {
             $validator = new NoEntityExists([
                 'object_repository' => $this->getEntityManager()->getRepository($this->getEntityClass()),
-                'fields' => $this->uniqueField
+                'fields' => $this->uniqueField,
             ]);
             if ($this->uniqueEntityMessage != null) {
                 $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
@@ -144,7 +144,7 @@ abstract class AbstractCrudController extends AbstractActionController
                 'fields' => $this->uniqueField,
                 'id' => $this->getEvent()
                     ->getRouteMatch()
-                    ->getParam('id', 0)
+                    ->getParam('id', 0),
             ]);
             if ($this->uniqueEntityMessage != null) {
                 $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
@@ -193,13 +193,13 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $form->add([
             'type' => 'Zend\Form\Element\Csrf',
-            'name' => 'csrf'
+            'name' => 'csrf',
         ]);
 
         $submitElement = new \Zend\Form\Element\Button('submit');
         $submitElement->setAttributes([
             'type' => 'submit',
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-primary',
         ]);
         $submitElement->setLabel('Salvar');
         $form->add($submitElement, [
@@ -210,8 +210,8 @@ abstract class AbstractCrudController extends AbstractActionController
         $cancelarElement->setAttributes([
             'type' => 'button',
             'class' => 'btn btn-default',
-            'onclick' => 'top.location=\'' . $this->url()
-                ->fromRoute($this->getActionRoute('list')) . '\''
+            'onclick' => 'top.location=\''.$this->url()
+                ->fromRoute($this->getActionRoute('list')).'\'',
         ]);
         $cancelarElement->setLabel('Cancelar');
         $form->add($cancelarElement, [
@@ -222,7 +222,8 @@ abstract class AbstractCrudController extends AbstractActionController
     }
 
     public function handleSearch(QueryBuilder $qb)
-    {}
+    {
+    }
 
     /**
      * Lista as entidades, suporte a paginação, ordenação e busca
@@ -248,8 +249,8 @@ abstract class AbstractCrudController extends AbstractActionController
         /* @var $qb \Doctrine\ORM\QueryBuilder */
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->add('select', 'e')
-            ->add('from', $this->getEntityClass() . ' e')
-            ->orderBy('e.' . $sort, $order)
+            ->add('from', $this->getEntityClass().' e')
+            ->orderBy('e.'.$sort, $order)
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -282,7 +283,7 @@ abstract class AbstractCrudController extends AbstractActionController
                 ->getParam('action');
         }
 
-        return $this->getRouteName() . '/' . $action;
+        return $this->getRouteName().'/'.$action;
     }
 
     public function addAction()
@@ -305,7 +306,6 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-
             $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
@@ -362,18 +362,18 @@ abstract class AbstractCrudController extends AbstractActionController
             'name' => 'id',
             'attributes' => [
                 'id' => 'id',
-                'value' => $id
+                'value' => $id,
             ],
             'filters' => [
                 [
-                    'name' => 'Int'
-                ]
+                    'name' => 'Int',
+                ],
             ],
             'validators' => [
                 [
-                    'name' => 'Digits'
-                ]
-            ]
+                    'name' => 'Digits',
+                ],
+            ],
         ]);
 
         $em = $this->getEntityManager();
@@ -387,7 +387,6 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-
             $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
@@ -429,8 +428,9 @@ abstract class AbstractCrudController extends AbstractActionController
         if (is_array($post) && array_key_exists('confirm', $post)) {
             $confirm = $post['confirm'];
 
-            if ($confirm == "1")
+            if ($confirm == "1") {
                 return true;
+            }
         }
 
         return false;
@@ -450,7 +450,6 @@ abstract class AbstractCrudController extends AbstractActionController
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
-
             $em = $this->getEntityManager();
             $objRepository = $em->getRepository($this->getEntityClass());
             $entity = $objRepository->find($id);

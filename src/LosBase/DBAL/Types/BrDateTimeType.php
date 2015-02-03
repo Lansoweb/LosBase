@@ -5,7 +5,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class BrDateTimeType extends UtcDateTimeType
 {
-
     /**
      * @param  string                                $value
      * @param  DoctrineDBALPlatformsAbstractPlatform $platform

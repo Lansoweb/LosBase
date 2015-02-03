@@ -5,7 +5,6 @@ use Doctrine\ORM\EntityManager;
 
 trait EntityManagerAwareTrait
 {
-
     /**
      *
      * @var Doctrine\ORM\EntityManager

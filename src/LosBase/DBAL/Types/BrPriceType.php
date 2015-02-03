@@ -6,20 +6,20 @@ use Doctrine\DBAL\Types\DecimalType;
 
 class BrPriceType extends DecimalType
 {
-
     /**
-     * @param string|int|float|null $value
-     * @param Doctrine\DBAL\Platforms\AbstractPlatform $platform
+     * @param  string|int|float|null                    $value
+     * @param  Doctrine\DBAL\Platforms\AbstractPlatform $platform
      * @return mixed
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return null;
+            return;
         }
 
         $formatter = new \NumberFormatter('pt_BR', \NumberFormatter::DECIMAL);
         $formatted = $formatter->parse($value);
+
         return $formatted;
     }
 
@@ -32,9 +32,10 @@ class BrPriceType extends DecimalType
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return null;
+            return;
         }
         $formatted = \number_format($value, 2, ',', '.');
+
         return $formatted;
     }
 
@@ -45,6 +46,7 @@ class BrPriceType extends DecimalType
     {
         $fieldDeclaration['precision'] = (! isset($fieldDeclaration['precision']) || empty($fieldDeclaration['precision'])) ? 9 : $fieldDeclaration['precision'];
         $fieldDeclaration['scale'] = (! isset($fieldDeclaration['scale']) || empty($fieldDeclaration['scale'])) ? 2 : $fieldDeclaration['scale'];
+
         return $platform->getDecimalTypeDeclarationSQL($fieldDeclaration);
     }
 }

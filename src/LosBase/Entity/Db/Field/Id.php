@@ -6,7 +6,6 @@ use Zend\Form\Annotation as Form;
 
 trait Id
 {
-
     /**
      * Id da entidade na tabela do banco de dados
      *

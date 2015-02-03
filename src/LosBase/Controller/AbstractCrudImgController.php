@@ -27,7 +27,6 @@ use Zend\Stdlib\ResponseInterface as Response;
  */
 abstract class AbstractCrudImgController extends AbstractCrudController
 {
-
     /**
      * Image directory for entities, relative to project's root
      *
@@ -69,7 +68,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $redirect = false;
         }
 
-            if (method_exists($this, 'getEditForm')) {
+        if (method_exists($this, 'getEditForm')) {
             $form = $this->getEditForm();
         } else {
             $form = $this->getForm();
@@ -83,7 +82,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $submitElement = new \Zend\Form\Element\Button('submit');
             $submitElement->setAttributes([
                 'type' => 'submit',
-                'class' => 'btn btn-primary'
+                'class' => 'btn btn-primary',
             ]);
             $submitElement->setLabel('Salvar');
             $form->add($submitElement, [
@@ -94,8 +93,8 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $cancelarElement->setAttributes([
                 'type' => 'button',
                 'class' => 'btn',
-                'onclick' => 'top.location="' . $this->url()
-                    ->fromRoute($this->getActionRoute('lista')) . '"'
+                'onclick' => 'top.location="'.$this->url()
+                    ->fromRoute($this->getActionRoute('lista')).'"',
             ]);
             $cancelarElement->setLabel('Cancelar');
             $form->add($cancelarElement, [
@@ -103,7 +102,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             ]);
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getActionRoute()) . ($redirect ? '?redirect=' . $redirect : '');
+        $redirectUrl = $this->url()->fromRoute($this->getActionRoute()).($redirect ? '?redirect='.$redirect : '');
         $prg = $this->prg($redirectUrl, true);
 
         if ($prg instanceof Response) {
@@ -177,7 +176,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
         $cacheDriver = $this->getEntityManager()
             ->getConfiguration()
             ->getQueryCacheImpl();
-        $cacheDriver->delete('lista_' . $this->getRouteName());
+        $cacheDriver->delete('lista_'.$this->getRouteName());
 
         if (! $savedEntity) {
             return [
@@ -191,15 +190,15 @@ abstract class AbstractCrudImgController extends AbstractCrudController
         if (isset($post['uploaded']) && $entity->getId() > 0 && null != $this->getImageDir()) {
             $id = $entity->getId();
             $file_name = $post['uploaded'];
-            if (file_exists($this->getImageDir() . '/0/' . $file_name)) {
-                if (! file_exists($this->getImageDir() . '/' . $id)) {
-                    @mkdir($this->getImageDir() . '/' . $id);
+            if (file_exists($this->getImageDir().'/0/'.$file_name)) {
+                if (! file_exists($this->getImageDir().'/'.$id)) {
+                    @mkdir($this->getImageDir().'/'.$id);
                 }
-                if (! file_exists($this->getImageDir() . '/' . $id . '/thumbnail')) {
-                    @mkdir($this->getImageDir() . '/' . $id . '/thumbnail');
+                if (! file_exists($this->getImageDir().'/'.$id.'/thumbnail')) {
+                    @mkdir($this->getImageDir().'/'.$id.'/thumbnail');
                 }
-                @rename($this->getImageDir() . '/0/' . $file_name, $this->getImageDir() . '/' . $id . '/' . $file_name);
-                @rename($this->getImageDir() . '/0/thumbnail/' . $file_name, $this->getImageDir() . '/' . $id . '/thumbnail/' . $file_name);
+                @rename($this->getImageDir().'/0/'.$file_name, $this->getImageDir().'/'.$id.'/'.$file_name);
+                @rename($this->getImageDir().'/0/thumbnail/'.$file_name, $this->getImageDir().'/'.$id.'/thumbnail/'.$file_name);
             }
         }
 
@@ -229,9 +228,9 @@ abstract class AbstractCrudImgController extends AbstractCrudController
      */
     protected function createThumbnail($file, $src_dir, $dest_dir, $options)
     {
-        $file_name = $src_dir . '/' . $file;
-        $new_file_path = $dest_dir . '/' . $file;
-        list ($img_width, $img_height) = @getimagesize($file_name);
+        $file_name = $src_dir.'/'.$file;
+        $new_file_path = $dest_dir.'/'.$file;
+        list($img_width, $img_height) = @getimagesize($file_name);
         if (! $img_width || ! $img_height) {
             return false;
         }
@@ -294,9 +293,9 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $file = $this->getRequest()
                 ->getQuery()
                 ->get('file', 0);
-            $dir = getcwd() . '/' . $this->getImageDir() . '/' . $id;
-            $file_path = $dir . '/' . $file;
-            $thumbnail_path = $dir . '/thumbnail/' . $file;
+            $dir = getcwd().'/'.$this->getImageDir().'/'.$id;
+            $file_path = $dir.'/'.$file;
+            $thumbnail_path = $dir.'/thumbnail/'.$file;
             $ok = false;
             if ($id > 0 && file_exists($dir) && file_exists($file_path)) {
                 if (@unlink($file_path)) {
@@ -311,8 +310,8 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             exit();
         } elseif ($this->getRequest()->isPost()) {
             $id = $this->getRequest()->getPost()->get('id', 0);
-            $dir = $this->getImageDir() . '/' . $id;
-            $thumbDir = $dir . '/thumbnail';
+            $dir = $this->getImageDir().'/'.$id;
+            $thumbDir = $dir.'/thumbnail';
             if (! file_exists($dir)) {
                 @mkdir($dir);
             }
@@ -320,9 +319,9 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 @mkdir($thumbDir);
             }
             $adapter = new \Zend\File\Transfer\Adapter\Http([
-                'useByteString' => false
+                'useByteString' => false,
             ]);
-            $adapter->setDestination(getcwd() . '/' . $dir);
+            $adapter->setDestination(getcwd().'/'.$dir);
             $files = $adapter->getFileInfo();
             foreach ($files as $file => $info) {
                 $name = $adapter->getFileName($file);
@@ -333,25 +332,25 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                     $erros = $adapter->getErrors();
                     $fileclass->error = $erros[0];
                 } else {
-                    $this->createThumbnail($info['name'], getcwd() . '/' . $dir, getcwd() . '/' . $thumbDir, $this->thumbnailOptions());
+                    $this->createThumbnail($info['name'], getcwd().'/'.$dir, getcwd().'/'.$thumbDir, $this->thumbnailOptions());
                     $fileclass->name = $info['name'];
                     $fileclass->size = (int) $adapter->getFileSize($file);
                     $fileclass->type = $adapter->getMimeType($file);
-                    $fileclass->deleteUrl = $this->url()->fromRoute($this->getRouteName()) . '/imagem' . $id . '?file=' . urlencode($file);
+                    $fileclass->deleteUrl = $this->url()->fromRoute($this->getRouteName()).'/imagem'.$id.'?file='.urlencode($file);
                     $fileclass->deleteType = 'DELETE';
                     // $fileclass->error = 'null';
-                    $fileclass->url = $this->getRequest()->getBasePath() . '/' . $this->getImageUrl() . '/' . $id . '/' . $info['name'];
-                    $fileclass->thumbnailUrl = $this->getRequest()->getBasePath() . '/' . $this->getImageUrl() . '/' . $id . '/thumbnail/' . $info['name'];
+                    $fileclass->url = $this->getRequest()->getBasePath().'/'.$this->getImageUrl().'/'.$id.'/'.$info['name'];
+                    $fileclass->thumbnailUrl = $this->getRequest()->getBasePath().'/'.$this->getImageUrl().'/'.$id.'/thumbnail/'.$info['name'];
                 }
                 $arqs[] = $fileclass;
             }
         } else {
             $id = $this->getEvent()->getRouteMatch()->getParam('id', 0);
-            $dir = $this->getImageDir() . '/' . $id;
+            $dir = $this->getImageDir().'/'.$id;
             if ($id > 0 && file_exists($dir)) {
                 $lista = scandir($dir);
                 foreach ($lista as $file) {
-                    $file_path = $dir . '/' . $file;
+                    $file_path = $dir.'/'.$file;
                     if (! is_file($file_path) || $file[0] == '.' || 'Thumbs.db' == $file) {
                         continue;
                     }
@@ -359,11 +358,11 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                     $fileclass = new \stdClass();
                     $fileclass->name = $file;
                     $fileclass->size = filesize($file_path);
-                    $fileclass->deleteUrl = $this->url()->fromRoute($this->getRouteName()) .'/imagem/' . $id . '?file=' . urlencode($file);
+                    $fileclass->deleteUrl = $this->url()->fromRoute($this->getRouteName()).'/imagem/'.$id.'?file='.urlencode($file);
                     $fileclass->deleteType = 'DELETE';
                     // $fileclass->error = 'null';
-                    $fileclass->url = $this->getRequest()->getBasePath() . '/' . $this->getImageUrl() . '/' . $id . '/' . $file;
-                    $fileclass->thumbnailUrl = $this->getRequest()->getBasePath() . '/' . $this->getImageUrl() . '/' . $id . '/thumbnail/' . $file;
+                    $fileclass->url = $this->getRequest()->getBasePath().'/'.$this->getImageUrl().'/'.$id.'/'.$file;
+                    $fileclass->thumbnailUrl = $this->getRequest()->getBasePath().'/'.$this->getImageUrl().'/'.$id.'/thumbnail/'.$file;
 
                     $arqs[] = $fileclass;
                 }

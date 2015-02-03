@@ -6,6 +6,9 @@
         "php" : ">=5.4",
         "zendframework/zendframework" : "~2.3"
     },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
+    },
     "suggest": {
         "los/loslog": "los/loslog for logging",
         "los/losui": "los/losui for twitter bootstrap 3 styling, jquery, chosen and other libraries"

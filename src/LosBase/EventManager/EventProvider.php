@@ -29,7 +29,6 @@ use Zend\EventManager\EventManager;
  */
 abstract class EventProvider implements EventManagerAwareInterface
 {
-
     /**
      *
      * @var EventManagerInterface

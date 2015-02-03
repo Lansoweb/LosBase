@@ -23,7 +23,6 @@ use Zend\Validator\StringLength;
  */
 class Factory extends ZendFactory
 {
-
     /**
      * Cria um filtro padrão para números inteiros (por exemplo, id)
      *
@@ -39,9 +38,9 @@ class Factory extends ZendFactory
             'required' => $required,
             'filters' => [
                 [
-                    'name' => 'Int'
-                ]
-            ]
+                    'name' => 'Int',
+                ],
+            ],
         ]);
     }
 
@@ -62,7 +61,7 @@ class Factory extends ZendFactory
         if (null === $filters) {
             $filters = [
                 ['name' => 'StripTags'],
-                ['name' => 'StringTrim']
+                ['name' => 'StringTrim'],
             ];
         }
         if (null === $validators) {
@@ -72,9 +71,9 @@ class Factory extends ZendFactory
                     'options' => [
                         'encoding' => 'UTF-8',
                         'min' => $min,
-                        'max' => $max
-                    ]
-                ]
+                        'max' => $max,
+                    ],
+                ],
             ];
         }
 
@@ -82,7 +81,7 @@ class Factory extends ZendFactory
             'name' => $nome,
             'required' => $required,
             'filters' => $filters,
-            'validators' => $validators
+            'validators' => $validators,
         ]);
     }
 
@@ -91,14 +90,14 @@ class Factory extends ZendFactory
         if (null === $filters) {
             $filters = [
                 ['name' => 'StripTags'],
-                ['name' => 'StringTrim']
+                ['name' => 'StringTrim'],
             ];
         }
         if (null === $validators) {
             $validators = [
                 [
-                    'name' => 'EmailAddress'
-                ]
+                    'name' => 'EmailAddress',
+                ],
             ];
         }
 
@@ -106,7 +105,7 @@ class Factory extends ZendFactory
             'name' => $nome,
             'required' => $required,
             'filters' => $filters,
-            'validators' => $validators
+            'validators' => $validators,
         ]);
     }
 }

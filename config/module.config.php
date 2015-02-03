@@ -13,18 +13,18 @@ namespace LosBase;
 
 return [
     'losbase' => [
-        'enable_console' => false
+        'enable_console' => false,
     ],
     'view_helpers' => [
         'invokables' => [
             'losversion' => 'LosBase\View\Helper\Version',
-            'losformelementerrors' => 'LosBase\Form\View\Helper\FormElementErrors'
-        ]
+            'losformelementerrors' => 'LosBase\Form\View\Helper\FormElementErrors',
+        ],
     ],
     'view_manager' => [
         'helper_map' => [
-            'LosVersion' => 'LosBase\View\Helper\Version'
-        ]
+            'LosVersion' => 'LosBase\View\Helper\Version',
+        ],
     ],
     'doctrine' => [
         'driver' => [
@@ -32,29 +32,29 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => [
-                    __DIR__ . '/../src/LosBase/Entity'
-                ]
+                    __DIR__.'/../src/LosBase/Entity',
+                ],
             ],
             'orm_default' => [
                 'drivers' => [
-                    'LosBase\Entity' => 'LosBase_entity'
-                ]
-            ]
+                    'LosBase\Entity' => 'LosBase_entity',
+                ],
+            ],
         ],
         'configuration' => [
             'orm_default' => [
                 'types' => [
                     'utcdatetime' => 'LosBase\DBAL\Types\UtcDateTimeType',
                     'brdatetime' => 'LosBase\DBAL\Types\BrDateTimeType',
-                    'brprice' => 'LosBase\DBAL\Types\BrPriceType'
-                ]
-            ]
-        ]
+                    'brprice' => 'LosBase\DBAL\Types\BrPriceType',
+                ],
+            ],
+        ],
     ],
     'controllers' => array(
         'invokables' => array(
-            'LosBase\Controller\Create' => 'LosBase\Controller\CreateController'
-        )
+            'LosBase\Controller\Create' => 'LosBase\Controller\CreateController',
+        ),
     ),
     'console' => [
         'router' => [
@@ -64,11 +64,11 @@ return [
                         'route' => 'create crud <name> [<path>]',
                         'defaults' => [
                             'controller' => 'LosBase\Controller\Create',
-                            'action' => 'crud'
-                        ]
-                    ]
-                ]
-            ]
-        ]
+                            'action' => 'crud',
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ]
 ];

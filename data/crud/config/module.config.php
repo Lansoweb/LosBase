@@ -2,8 +2,8 @@
 return [
     'controllers' => [
         'invokables' => [
-            '__MODULENAME__\Controller\Crud' => '__MODULENAME__\Controller\CrudController'
-        ]
+            '__MODULENAME__\Controller\Crud' => '__MODULENAME__\Controller\CrudController',
+        ],
     ],
     'router' => [
         'routes' => [
@@ -13,8 +13,8 @@ return [
                     'route' => '/__MODULEDASHEDNAME__',
                     'defaults' => [
                         'controller' => '__MODULENAME__\Controller\Crud',
-                        'action' => 'list'
-                    ]
+                        'action' => 'list',
+                    ],
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
@@ -24,9 +24,9 @@ return [
                             'route' => '/list',
                             'defaults' => [
                                 'controller' => '__MODULENAME__\Controller\Crud',
-                                'action' => 'list'
-                            ]
-                        ]
+                                'action' => 'list',
+                            ],
+                        ],
                     ],
                     'add' => [
                         'type' => 'Literal',
@@ -34,46 +34,46 @@ return [
                             'route' => '/add',
                             'defaults' => [
                                 'controller' => '__MODULENAME__\Controller\Crud',
-                                'action' => 'add'
-                            ]
-                        ]
+                                'action' => 'add',
+                            ],
+                        ],
                     ],
                     'edit' => [
                         'type' => 'Segment',
                         'options' => [
                             'route' => '/edit[/:id]',
                             'constraints' => [
-                                'id' => '[0-9]+'
+                                'id' => '[0-9]+',
                             ],
                             'defaults' => [
                                 'controller' => '__MODULENAME__\Controller\Crud',
                                 'action' => 'edit',
-                                'id' => 0
-                            ]
-                        ]
+                                'id' => 0,
+                            ],
+                        ],
                     ],
                     'delete' => [
                         'type' => 'Segment',
                         'options' => [
                             'route' => '/delete[/:id]',
                             'constraints' => [
-                                'id' => '[0-9]+'
+                                'id' => '[0-9]+',
                             ],
                             'defaults' => [
                                 'controller' => '__MODULENAME__\Controller\Crud',
                                 'action' => 'delete',
-                                'id' => 0
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
+                                'id' => 0,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     'view_manager' => [
         'template_path_stack' => [
-            '__MODULENAME__' => __DIR__ . '/../view'
-        ]
+            '__MODULENAME__' => __DIR__.'/../view',
+        ],
     ],
     'doctrine' => [
         'driver' => [
@@ -81,15 +81,15 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => [
-                    __DIR__ . '/../src/__MODULENAME__/Entity'
-                ]
+                    __DIR__.'/../src/__MODULENAME__/Entity',
+                ],
             ],
             'orm_default' => [
                 'drivers' => [
-                    '__MODULENAME__\Entity' => '__MODULENAME___driver'
-                ]
-            ]
-        ]
+                    '__MODULENAME__\Entity' => '__MODULENAME___driver',
+                ],
+            ],
+        ],
     ],
     'navigation' => [
         'default' => [
@@ -101,24 +101,24 @@ return [
                         'pages' => [
                             'list' => [
                                 'label' => 'List',
-                                'route' => '__MODULEDASHEDNAME__/list'
+                                'route' => '__MODULEDASHEDNAME__/list',
                             ],
                             'add' => [
                                 'label' => 'Add',
-                                'route' => '__MODULEDASHEDNAME__/add'
+                                'route' => '__MODULEDASHEDNAME__/add',
                             ],
                             'edit' => [
                                 'label' => 'Edit',
-                                'route' => '__MODULEDASHEDNAME__/edit'
+                                'route' => '__MODULEDASHEDNAME__/edit',
                             ],
                             'delete' => [
                                 'label' => 'Delete',
-                                'route' => '__MODULEDASHEDNAME__/delete'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
+                                'route' => '__MODULEDASHEDNAME__/delete',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ]
 ];

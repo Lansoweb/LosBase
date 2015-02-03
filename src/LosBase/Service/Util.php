@@ -26,7 +26,6 @@ use Zend\Console\Console;
  */
 class Util
 {
-
     public static function getUserAgent()
     {
         if (Console::isConsole()) {
