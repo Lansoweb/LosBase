@@ -1,32 +1,30 @@
 {
-    "name" : "los/losbase",
-    "description" : "Library with common classes for Los packages",
-    "require" : {
-        "doctrine/doctrine-orm-module" : "~0.8",
-        "php" : ">=5.4",
-        "zendframework/zendframework" : "~2.3"
-    },
-    "require-dev": {
-        "satooshi/php-coveralls": "dev-master"
-    },
-    "suggest": {
-        "los/loslog": "los/loslog for logging",
-        "los/losui": "los/losui for twitter bootstrap 3 styling, jquery, chosen and other libraries"
-    },    
-    "authors" : [ 
-        {
-            "name" : "Leandro Silva",
-            "email" : "leandro@leandrosilva.info",
-            "homepage" : "http://leandrosilva.info"
-        } 
-    ],
-    "keywords" : [ "library", "los", "base", "common" ],
-    "minimum-stability" : "dev",
-    "autoload" : {
-        "psr-0" : {
-            "LosBase" : "src"
-        }
-    },
-    "license" : [ "BSD-3-Clause" ],
-    "type" : "library"
+  "name" : "los/losbase",
+  "description" : "Library with common classes for Los packages",
+  "require" : {
+    "doctrine/doctrine-orm-module" : "~0.8",
+    "php" : ">=5.4",
+    "zendframework/zendframework" : "~2.3"
+  },
+  "require-dev" : {
+    "satooshi/php-coveralls" : "dev-master",
+    "phpunit/phpunit" : "=4.4.5"
+  },
+  "authors" : [ {
+    "name" : "Leandro Silva",
+    "email" : "leandro@leandrosilva.info",
+    "homepage" : "http://leandrosilva.info"
+  } ],
+  "keywords" : [ "library", "los", "base", "common" ],
+  "autoload" : {
+    "psr-4" : {
+      "LosBase\\" : "src/"
+    }
+  },
+  "suggest" : {
+    "los/loslog" : "los/loslog for logging",
+    "los/losui" : "los/losui for twitter bootstrap 3 styling, jquery, chosen and other libraries"
+  },
+  "type" : "library",
+  "license" : [ "BSD-3-Clause" ]
 }

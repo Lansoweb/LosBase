@@ -7,6 +7,9 @@ use Zend\Filter\Word\CamelCaseToDash as CamelCaseToDashFilter;
 use Zend\View\Model\ConsoleModel;
 use Zend\Code\Generator\ValueGenerator;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CreateController extends AbstractActionController
 {
     public function crudAction()
