@@ -17,6 +17,9 @@
   } ],
   "keywords" : [ "library", "los", "base", "common" ],
   "autoload" : {
+    "psr-0" : {
+      "LosBase\\" : "src/"
+    },
     "psr-4" : {
       "LosBase\\" : "src/"
     }
