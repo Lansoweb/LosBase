@@ -47,6 +47,4 @@ class AbstractModuleTest extends TestCase
         $this->assertArrayHasKey('Zend\Loader\ClassMapAutoloader', $config);
         $this->assertArrayHasKey('Zend\Loader\StandardAutoloader', $config);
     }
-
 }
-
