@@ -5,5 +5,5 @@ return [
             __DIR__.'/../config/{,*}.php'
         )
         ],
-    'modules' => ['LosBase']
+    'modules' => []
     ];

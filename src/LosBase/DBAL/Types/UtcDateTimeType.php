@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\DateTimeType;
 
 class UtcDateTimeType extends DateTimeType
 {
-    /**
+     /**
       * @param DateTime $value
       * @param Doctrine\DBAL\Platforms\AbstractPlatform $platform
       * @return string

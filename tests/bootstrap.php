@@ -19,6 +19,7 @@ if (! isset($loader)) {
 }
 
 /* @var $loader \Composer\Autoload\ClassLoader */
+$loader->add('LosBase\\', __DIR__.'/../src/');
 $loader->add('LosBaseTest\\', __DIR__);
 
 if (file_exists(__DIR__.'/TestConfiguration.php')) {

@@ -1,11 +1,4 @@
 <?php
-/**
- * @author     Leandro Silva <leandro@leandrosilva.info>
- * @category   LosBase
- * @subpackage Tests
- * @license    http://opensource.org/licenses/MIT   MIT License
- * @link       http://github.com/LansoWeb/LosLog
- */
 namespace LosBaseTest;
 
 class TestCase extends \PHPUnit_Framework_TestCase

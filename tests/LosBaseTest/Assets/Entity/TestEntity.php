@@ -1,8 +1,6 @@
 <?php
 namespace LosBaseTest\Assets\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 use LosBase\Entity\AbstractEntity;
@@ -26,5 +24,3 @@ class TestEntity extends AbstractEntity
      */
     private $name;
 }
-
-?>

@@ -7,7 +7,7 @@
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
+ * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 namespace LosBase\Controller;
@@ -32,7 +32,7 @@ use LosBase\Validator\NoOtherEntityExists;
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
+ * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 abstract class AbstractCrudController extends AbstractActionController
@@ -203,7 +203,7 @@ abstract class AbstractCrudController extends AbstractActionController
         ]);
         $submitElement->setLabel('Salvar');
         $form->add($submitElement, [
-            'priority' => - 100
+            'priority' => - 100,
         ]);
 
         $cancelarElement = new \Zend\Form\Element\Button('cancelar');
@@ -215,7 +215,7 @@ abstract class AbstractCrudController extends AbstractActionController
         ]);
         $cancelarElement->setLabel('Cancelar');
         $form->add($cancelarElement, [
-            'priority' => - 100
+            'priority' => - 100,
         ]);
 
         return $form;
@@ -266,7 +266,7 @@ abstract class AbstractCrudController extends AbstractActionController
             'sort' => $sort,
             'order' => $order,
             'page' => $page,
-            'query' => $this->params()->fromQuery()
+            'query' => $this->params()->fromQuery(),
         ];
     }
 
@@ -309,19 +309,19 @@ abstract class AbstractCrudController extends AbstractActionController
             $this->getEventManager()->trigger('getForm', $this, [
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
-                'entity' => $entity
+                'entity' => $entity,
             ]);
 
             return [
                 'entityForm' => $form,
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
 
         $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
-            'entity' => $entity
+            'entity' => $entity,
         ]);
 
         $savedEntity = $this->getEntityService()->save($form, $entity);
@@ -329,7 +329,7 @@ abstract class AbstractCrudController extends AbstractActionController
         if (! $savedEntity) {
             return [
                 'entityForm' => $form,
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
 
@@ -391,12 +391,12 @@ abstract class AbstractCrudController extends AbstractActionController
                 'form' => $form,
                 'entityClass' => $this->getEntityClass(),
                 'id' => $id,
-                'entity' => $entity
+                'entity' => $entity,
             ]);
 
             return [
                 'entityForm' => $form,
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
 
@@ -404,7 +404,7 @@ abstract class AbstractCrudController extends AbstractActionController
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
             'id' => $id,
-            'entity' => $entity
+            'entity' => $entity,
         ]);
 
         $savedEntity = $this->getEntityService()->save($form, $entity);
@@ -412,7 +412,7 @@ abstract class AbstractCrudController extends AbstractActionController
         if (! $savedEntity) {
             return [
                 'entityForm' => $form,
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
 
@@ -455,7 +455,7 @@ abstract class AbstractCrudController extends AbstractActionController
             $entity = $objRepository->find($id);
 
             return [
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
 
@@ -480,7 +480,7 @@ abstract class AbstractCrudController extends AbstractActionController
             ->translate($this->errorDeleteMessage));
 
         return [
-            'entity' => $entity
+            'entity' => $entity,
         ];
     }
 

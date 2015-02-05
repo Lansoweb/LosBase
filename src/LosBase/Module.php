@@ -6,7 +6,7 @@
  * @author    Leandro Silva <leandro@leandrosilva.info>
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
+ * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
 namespace LosBase;
@@ -25,8 +25,9 @@ use Zend\EventManager\EventInterface;
  * @author Leandro Silva <leandro@leandrosilva.info>
  * @link http://leandrosilva.info Development Blog
  * @link http://github.com/LansoWeb/LosBase for the canonical source repository
- * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
+ * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license http://leandrosilva.info/licenca-bsd New BSD license
+ * @codeCoverageIgnore
  */
 class Module implements AutoloaderProviderInterface,
         LocatorRegisteredInterface, ConsoleUsageProviderInterface
@@ -64,7 +65,7 @@ class Module implements AutoloaderProviderInterface,
 
                     return new DoctrineEntity($em);
                 },
-            ]
+            ],
         ];
     }
 
@@ -78,7 +79,7 @@ class Module implements AutoloaderProviderInterface,
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -95,7 +96,7 @@ class Module implements AutoloaderProviderInterface,
         }
 
         return [
-            'los create crud <name> [<path>]' => 'Creates a new CRUD module'
+            'los create crud <name> [<path>]' => 'Creates a new CRUD module',
         ];
     }
 }

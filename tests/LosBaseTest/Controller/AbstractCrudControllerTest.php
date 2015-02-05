@@ -1,13 +1,14 @@
 <?php
-namespace LosBaseTest;
+namespace LosBaseTest\Controller;
 
 use LosBaseTest\Assets\Controller\CrudController;
 use Zend\Http\PhpEnvironment\Response;
 use LosBaseTest\Assets\Entity\TestEntity;
+use LosBaseTest\TestCase;
+use LosBaseTest\ServiceManagerTestCase;
 
 class AbstractCrudControllerTest extends TestCase
 {
-
     private $controller;
 
     private $pluginManager;
@@ -23,36 +24,18 @@ class AbstractCrudControllerTest extends TestCase
         $this->controller->setServiceLocator($sm->getServiceManager());
 
         $pluginManager = $this->getMock('Zend\Mvc\Controller\PluginManager', array(
-            'get'
+            'get',
         ));
 
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnCallback(array(
             $this,
-            'helperMockCallbackPluginManagerGet'
+            'helperMockCallbackPluginManagerGet',
         )));
 
         $this->pluginManager = $pluginManager;
         $this->controller->setPluginManager($pluginManager);
-
-        /*
-         * $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect', array(
-         * 'toUrl'
-         * ));
-         * $redirect->expects($this->any())
-         * ->method('toUrl')
-         * ->with($route_url . $redirectQuery)
-         * ->will($this->returnCallback(function ($url) use(&$response) {
-         * $response->getHeaders()
-         * ->addHeaderLine('Location', $url);
-         * $response->setStatusCode(302);
-         *
-         * return $response;
-         * }));
-         *
-         * $this->pluginManagerPlugins['redirect'] = $redirect;
-         */
     }
 
     protected function tearDown()
@@ -248,7 +231,7 @@ class AbstractCrudControllerTest extends TestCase
     {
         $response = new Response();
         $url = $this->getMock('Zend\Mvc\Controller\Plugin\Url', array(
-            'fromRoute'
+            'fromRoute',
         ));
         $url->expects($this->any())
             ->method('fromRoute')
@@ -265,13 +248,13 @@ class AbstractCrudControllerTest extends TestCase
             ->will($this->returnSelf());
         $params->expects($this->any())
             ->method('fromPost')
-            ->will($this->returnCallback(function ($key, $default) use($post) {
-            return $post ?  : $default;
+            ->will($this->returnCallback(function ($key, $default) use ($post) {
+            return $post ?: $default;
         }));
         $params->expects($this->any())
             ->method('fromQuery')
-            ->will($this->returnCallback(function ($key, $default) use($query) {
-            return $query ?  : $default;
+            ->will($this->returnCallback(function ($key, $default) use ($query) {
+            return $query ?: $default;
         }));
         $this->pluginManagerPlugins['params'] = $params;
     }
@@ -330,4 +313,3 @@ class AbstractCrudControllerTest extends TestCase
         $this->controller->setEntityManager($em);
     }
 }
-
