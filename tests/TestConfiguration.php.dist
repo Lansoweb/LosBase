@@ -2,7 +2,7 @@
 return [
     'module_listener_options' => [
         'config_glob_paths' => array(
-            __DIR__.'/../config/{,*}.php'
+            __DIR__.'/config/{,*}.php'
         )
         ],
     'modules' => ['LosBase']
