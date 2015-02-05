@@ -1,5 +1,5 @@
 <?php
-namespace LosBaseTest;
+namespace LosBaseTest\Controller;
 
 use LosBaseTest\Assets\Controller\CrudController;
 use Zend\Http\PhpEnvironment\Response;
