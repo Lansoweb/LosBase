@@ -67,6 +67,9 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getConfig()
     {
         return include $this->getDir().'/../../config/module.config.php';
