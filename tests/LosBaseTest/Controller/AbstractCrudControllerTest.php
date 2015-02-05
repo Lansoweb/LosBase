@@ -4,6 +4,8 @@ namespace LosBaseTest\Controller;
 use LosBaseTest\Assets\Controller\CrudController;
 use Zend\Http\PhpEnvironment\Response;
 use LosBaseTest\Assets\Entity\TestEntity;
+use LosBaseTest\TestCase;
+use LosBaseTest\ServiceManagerTestCase;
 
 class AbstractCrudControllerTest extends TestCase
 {
