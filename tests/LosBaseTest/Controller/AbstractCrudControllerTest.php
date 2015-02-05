@@ -7,7 +7,6 @@ use LosBaseTest\Assets\Entity\TestEntity;
 
 class AbstractCrudControllerTest extends TestCase
 {
-
     private $controller;
 
     private $pluginManager;
@@ -23,14 +22,14 @@ class AbstractCrudControllerTest extends TestCase
         $this->controller->setServiceLocator($sm->getServiceManager());
 
         $pluginManager = $this->getMock('Zend\Mvc\Controller\PluginManager', array(
-            'get'
+            'get',
         ));
 
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnCallback(array(
             $this,
-            'helperMockCallbackPluginManagerGet'
+            'helperMockCallbackPluginManagerGet',
         )));
 
         $this->pluginManager = $pluginManager;
@@ -248,7 +247,7 @@ class AbstractCrudControllerTest extends TestCase
     {
         $response = new Response();
         $url = $this->getMock('Zend\Mvc\Controller\Plugin\Url', array(
-            'fromRoute'
+            'fromRoute',
         ));
         $url->expects($this->any())
             ->method('fromRoute')
@@ -265,13 +264,13 @@ class AbstractCrudControllerTest extends TestCase
             ->will($this->returnSelf());
         $params->expects($this->any())
             ->method('fromPost')
-            ->will($this->returnCallback(function ($key, $default) use($post) {
-            return $post ?  : $default;
+            ->will($this->returnCallback(function ($key, $default) use ($post) {
+            return $post ?: $default;
         }));
         $params->expects($this->any())
             ->method('fromQuery')
-            ->will($this->returnCallback(function ($key, $default) use($query) {
-            return $query ?  : $default;
+            ->will($this->returnCallback(function ($key, $default) use ($query) {
+            return $query ?: $default;
         }));
         $this->pluginManagerPlugins['params'] = $params;
     }
@@ -330,4 +329,3 @@ class AbstractCrudControllerTest extends TestCase
         $this->controller->setEntityManager($em);
     }
 }
-

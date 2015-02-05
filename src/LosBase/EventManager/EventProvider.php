@@ -26,6 +26,7 @@ use Zend\EventManager\EventManager;
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
  * @copyright Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
+ * @codeCoverageIgnore
  */
 abstract class EventProvider implements EventManagerAwareInterface
 {

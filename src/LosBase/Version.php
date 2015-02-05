@@ -23,7 +23,7 @@ namespace LosBase;
  */
 class Version
 {
-    const VERSION = '2.5.0';
+    const VERSION = '2.5.3';
 
     /**
      * Compara uma versão com a atual

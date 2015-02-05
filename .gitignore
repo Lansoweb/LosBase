@@ -9,3 +9,4 @@ extras/documentation
 /composer.phar
 /composer.lock
 /vendor
+/build

@@ -1,7 +1,6 @@
 <?php
 namespace LosBaseTest\DBAL\Types;
 
-use LosBase\DBAL\Types\UtcDateTimeType;
 use LosBaseTest\TestCase;
 use Doctrine\DBAL\Types\Type;
 use LosBaseTest\DBAL\Mocks\MockPlatform;
@@ -9,13 +8,13 @@ use LosBaseTest\DBAL\Mocks\MockPlatform;
 /**
  * UtcDateTimeType test case.
  */
-class UtcDateTimeTypeTest extends TestCase
+class BrDateTimeTypeTest extends TestCase
 {
     /**
      *
      * @var UtcDateTimeType
      */
-    private $UtcDateTimeType;
+    private $BrDateTimeType;
     private $platform;
     /**
      * Prepares the environment before running a test.
@@ -25,10 +24,10 @@ class UtcDateTimeTypeTest extends TestCase
         parent::setUp();
 
         $this->platform = new MockPlatform();
-        if (!Type::hasType('utcdatetime')) {
-            Type::addType('utcdatetime', 'LosBase\DBAL\Types\UtcDateTimeType');
+        if (!Type::hasType('brdatetime')) {
+            Type::addType('brdatetime', 'LosBase\DBAL\Types\BrDateTimeType');
         }
-        $this->UtcDateTimeType = Type::getType('utcdatetime');
+        $this->BrDateTimeType = Type::getType('brdatetime');
         date_default_timezone_set('America/New_York');
     }
 
@@ -38,7 +37,7 @@ class UtcDateTimeTypeTest extends TestCase
     protected function tearDown()
     {
         // TODO Auto-generated UtcDateTimeTypeTest::tearDown()
-        $this->UtcDateTimeType = null;
+        $this->BrDateTimeType = null;
 
         parent::tearDown();
     }
@@ -48,8 +47,8 @@ class UtcDateTimeTypeTest extends TestCase
      */
     public function testConvertToDatabaseValue()
     {
-        $dt = \DateTime::createFromFormat('d/m/Y H:i:s', '05/02/2015 09:10:11');
-        $this->assertSame('2015-02-05 14:10:11', $this->UtcDateTimeType->convertToDatabaseValue($dt, $this->platform));
+        $dt = \DateTime::createFromFormat('d/m/Y H:i:s', '05/02/2015 09:10:11', new \DateTimeZone('America/Sao_Paulo'));
+        $this->assertSame('2015-02-05 11:10:11', $this->BrDateTimeType->convertToDatabaseValue($dt, $this->platform));
     }
 
     /**
@@ -57,7 +56,7 @@ class UtcDateTimeTypeTest extends TestCase
      */
     public function testConvertToPHPValue()
     {
-        $dt = \DateTime::createFromFormat('d/m/Y H:i:s', '05/02/2015 09:10:11', new \DateTimeZone('UTC'));
-        $this->assertEquals($dt, $this->UtcDateTimeType->convertToPHPValue('2015-02-05 09:10:11', $this->platform));
+        $dt = \DateTime::createFromFormat('d/m/Y H:i:s', '05/02/2015 09:10:11', new \DateTimeZone('America/Sao_Paulo'));
+        $this->assertEquals($dt, $this->BrDateTimeType->convertToPHPValue('2015-02-05 11:10:11', $this->platform));
     }
 }

@@ -5,7 +5,6 @@ use LosBase\Controller\AbstractCrudController;
 
 class CrudController extends AbstractCrudController
 {
-
     public function getEntityClass()
     {
         return 'LosBaseTest\Assets\Entity\TestEntity';
@@ -16,5 +15,3 @@ class CrudController extends AbstractCrudController
         return 'LosBaseTest\Assets\Service\TestService';
     }
 }
-
-?>

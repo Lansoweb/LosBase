@@ -11,6 +11,9 @@
  */
 namespace LosBase;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait Singleton
 {
     private static $instance;
