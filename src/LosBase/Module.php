@@ -65,7 +65,7 @@ class Module implements AutoloaderProviderInterface,
 
                     return new DoctrineEntity($em);
                 },
-            ]
+            ],
         ];
     }
 
@@ -79,7 +79,7 @@ class Module implements AutoloaderProviderInterface,
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -96,7 +96,7 @@ class Module implements AutoloaderProviderInterface,
         }
 
         return [
-            'los create crud <name> [<path>]' => 'Creates a new CRUD module'
+            'los create crud <name> [<path>]' => 'Creates a new CRUD module',
         ];
     }
 }

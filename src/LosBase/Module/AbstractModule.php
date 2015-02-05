@@ -63,7 +63,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
                 'namespaces' => [
                     $this->getNamespace() => $this->getDir().'/../../src/'.$this->getNamespace(),
                 ],
-            ]
+            ],
         ];
     }
 

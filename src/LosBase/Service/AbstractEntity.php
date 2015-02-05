@@ -34,12 +34,12 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
     {
         $this->getEventManager()->trigger(__FUNCTION__.'.init', $this, [
             'entity' => $entity,
-            'form' => $form
+            'form' => $form,
         ]);
         if (! $form->isValid()) {
             $this->getEventManager()->trigger(__FUNCTION__.'.invalid', $this, [
                 'entity' => $entity,
-                'form' => $form
+                'form' => $form,
             ]);
 
             return false;
@@ -54,13 +54,13 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         }
         $this->getEventManager()->trigger(__FUNCTION__, $this, [
             'entity' => $entity,
-            'form' => $form
+            'form' => $form,
         ]);
         $em->persist($entity);
         $em->flush();
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, [
             'entity' => $entity,
-            'form' => $form
+            'form' => $form,
         ]);
 
         return $entity;
@@ -72,7 +72,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             throw new \InvalidArgumentException(sprintf("Entity argument must be an object, %s given.", \gettype($entity)));
         }
         $this->getEventManager()->trigger(__FUNCTION__.'.init', $this, [
-            'entity' => $entity
+            'entity' => $entity,
         ]);
 
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
@@ -85,7 +85,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         }
 
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, [
-            'entityId' => $id
+            'entityId' => $id,
         ]);
 
         return $entity;

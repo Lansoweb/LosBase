@@ -77,7 +77,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             $uploaded = new \Zend\Form\Element\Hidden('uploaded');
             // $uploaded->setValue('');
             $form->add($uploaded, [
-                'priority' => - 100
+                'priority' => - 100,
             ]);
 
             $submitElement = new \Zend\Form\Element\Button('submit');
@@ -87,7 +87,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             ]);
             $submitElement->setLabel('Salvar');
             $form->add($submitElement, [
-                'priority' => - 100
+                'priority' => - 100,
             ]);
 
             $cancelarElement = new \Zend\Form\Element\Button('cancelar');
@@ -99,7 +99,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             ]);
             $cancelarElement->setLabel('Cancelar');
             $form->add($cancelarElement, [
-                'priority' => - 100
+                'priority' => - 100,
             ]);
         }
 
@@ -127,7 +127,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 $idForm = new \Zend\Form\Element\Hidden('id');
                 $idForm->setValue($id);
                 $form->add($idForm, [
-                    'priority' => - 100
+                    'priority' => - 100,
                 ]);
             } else {
                 $classe = $this->getEntityClass();
@@ -140,7 +140,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                     'form' => $form,
                     'entityClass' => $this->getEntityClass(),
                     'id' => $id,
-                    'entity' => $entity
+                    'entity' => $entity,
                 ]);
 
             return [
@@ -169,7 +169,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
                 'entityClass' => $this->getEntityClass(),
                 'id' => $id,
                 'entity' => $entity,
-                'post' => $post
+                'post' => $post,
             ]);
 
         $savedEntity = $this->getEntityService()->save($form, $post, $entity);
@@ -183,7 +183,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
             return [
                 'entityForm' => $form,
                 'redirect' => $redirect,
-                'entity' => $entity
+                'entity' => $entity,
             ];
         }
         $entity = $savedEntity;
@@ -214,7 +214,7 @@ abstract class AbstractCrudImgController extends AbstractCrudController
     {
         return [
             'max_width' => 80,
-            'max_height' => 80
+            'max_height' => 80,
         ];
     }
 
