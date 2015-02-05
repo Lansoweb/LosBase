@@ -36,24 +36,6 @@ class AbstractCrudControllerTest extends TestCase
 
         $this->pluginManager = $pluginManager;
         $this->controller->setPluginManager($pluginManager);
-
-        /*
-         * $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect', array(
-         * 'toUrl'
-         * ));
-         * $redirect->expects($this->any())
-         * ->method('toUrl')
-         * ->with($route_url . $redirectQuery)
-         * ->will($this->returnCallback(function ($url) use(&$response) {
-         * $response->getHeaders()
-         * ->addHeaderLine('Location', $url);
-         * $response->setStatusCode(302);
-         *
-         * return $response;
-         * }));
-         *
-         * $this->pluginManagerPlugins['redirect'] = $redirect;
-         */
     }
 
     protected function tearDown()
