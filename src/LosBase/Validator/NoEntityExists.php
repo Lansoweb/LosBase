@@ -40,7 +40,7 @@ class NoEntityExists extends NoObjectExists
 
     public function isValid($value, $context = null)
     {
-        if (null != $this->additionalFields && is_array($context)) {
+        if (null !== $this->additionalFields && is_array($context)) {
             $value = (array) $value;
             foreach ($this->additionalFields as $field) {
                 if (! isset($context[$field])) {

@@ -74,7 +74,7 @@ abstract class AbstractCrudController extends AbstractActionController
      */
     public function getEntityService()
     {
-        if (null == $this->entityService) {
+        if (null === $this->entityService) {
             $entityServiceClass = $this->getEntityServiceClass();
             if (! class_exists($entityServiceClass)) {
                 throw new \RuntimeException("Classe $entityServiceClass inexistente!");
@@ -117,12 +117,12 @@ abstract class AbstractCrudController extends AbstractActionController
     {
         $form = $this->getForm();
 
-        if ($this->uniqueField != null) {
+        if ($this->uniqueField !== null) {
             $validator = new NoEntityExists([
                 'object_repository' => $this->getEntityManager()->getRepository($this->getEntityClass()),
                 'fields' => $this->uniqueField,
             ]);
-            if ($this->uniqueEntityMessage != null) {
+            if ($this->uniqueEntityMessage !== null) {
                 $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
             }
             $form->getInputFilter()
@@ -138,7 +138,7 @@ abstract class AbstractCrudController extends AbstractActionController
     {
         $form = $this->getForm();
 
-        if ($this->uniqueField != null) {
+        if ($this->uniqueField !== null) {
             $validator = new NoOtherEntityExists([
                 'object_repository' => $this->getEntityManager()->getRepository($this->getEntityClass()),
                 'fields' => $this->uniqueField,
@@ -146,7 +146,7 @@ abstract class AbstractCrudController extends AbstractActionController
                     ->getRouteMatch()
                     ->getParam('id', 0),
             ]);
-            if ($this->uniqueEntityMessage != null) {
+            if ($this->uniqueEntityMessage !== null) {
                 $validator->setMessage($this->uniqueEntityMessage, 'objectFound');
             }
             $form->getInputFilter()
@@ -230,8 +230,6 @@ abstract class AbstractCrudController extends AbstractActionController
      */
     public function listAction()
     {
-        $pm = $this->getPluginManager();
-
         $page = $this->getRequest()->getQuery('page', 0);
         $limit = $this->getRequest()->getQuery('limit', $this->defaultPageSize);
         $sort = $this->getRequest()->getQuery('sort', $this->defaultSort);
@@ -277,7 +275,7 @@ abstract class AbstractCrudController extends AbstractActionController
      */
     public function getActionRoute($action = null)
     {
-        if (null == $action) {
+        if (null === $action) {
             $action = $this->getEvent()
                 ->getRouteMatch()
                 ->getParam('action');
@@ -288,8 +286,6 @@ abstract class AbstractCrudController extends AbstractActionController
 
     public function addAction()
     {
-        $request = $this->getRequest();
-
         if (method_exists($this, 'getAddForm')) {
             $form = $this->getAddForm();
         } else {
@@ -345,8 +341,6 @@ abstract class AbstractCrudController extends AbstractActionController
      */
     public function editAction()
     {
-        $request = $this->getRequest();
-
         if (method_exists($this, 'getEditForm')) {
             $form = $this->getEditForm();
         } else {
@@ -438,8 +432,6 @@ abstract class AbstractCrudController extends AbstractActionController
 
     public function deleteAction()
     {
-        $request = $this->getRequest();
-
         $id = $this->getEvent()
             ->getRouteMatch()
             ->getParam('id', 0);

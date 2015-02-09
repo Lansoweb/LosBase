@@ -17,6 +17,7 @@ use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\EventManager\EventInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Module definition
@@ -42,8 +43,7 @@ class Module implements AutoloaderProviderInterface,
     {
         return [
             'factories' => [
-                // TODO: create classes and use them on critical places
-                'app_cache' => function ($sm) {
+                'app_cache' => function (ServiceLocatorInterface $sm) {
                     $cache = \Zend\Cache\StorageFactory::factory([
                         'adapter' => 'filesystem',
                         'plugins' => [
@@ -60,7 +60,7 @@ class Module implements AutoloaderProviderInterface,
 
                     return $cache;
                 },
-                'DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity' => function ($sm) {
+                'DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity' => function (ServiceLocatorInterface $sm) {
                     $em = $sm->get('doctrine.entitymanager.orm_default');
 
                     return new DoctrineEntity($em);
