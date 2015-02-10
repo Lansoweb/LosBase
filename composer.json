@@ -8,7 +8,7 @@
   },
   "require-dev" : {
     "satooshi/php-coveralls" : "dev-master",
-    "phpunit/phpunit" : "=4.4.5"
+    "phpunit/phpunit" : "~4.4"
   },
   "authors" : [ {
     "name" : "Leandro Silva",
@@ -29,5 +29,5 @@
     "los/losui" : "los/losui for twitter bootstrap 3 styling, jquery, chosen and other libraries"
   },
   "type" : "library",
-  "license" : [ "BSD-3-Clause" ]
+  "license" : "BSD-3-Clause"
 }
