@@ -11,11 +11,14 @@ trait Updated
      *
      * @ORM\Column(type="datetime")
      * @Form\Exclude()
+     * @var DateTime
      */
-    protected $updated = '';
+    protected $updated = null;
 
     /**
      * Getter for $updated
+     *
+     * @return $updated DateTime
      */
     public function getUpdated()
     {
@@ -26,7 +29,7 @@ trait Updated
      * Setter for $updated
      *
      * @param  DateTime                            $updated
-     * @return \LosBase\Entity\CreatedUpdatedTrait
+     * @return \LosBase\Entity\Db\Field\Updated
      */
     public function setUpdated($updated)
     {

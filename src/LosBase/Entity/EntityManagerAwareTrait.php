@@ -7,14 +7,14 @@ trait EntityManagerAwareTrait
 {
     /**
      *
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     /**
      * Seta o EntityManager
      *
-     * @param EntityManager $em
+     * @param \Doctrine\ORM\EntityManager $em
      */
     public function setEntityManager(EntityManager $em)
     {
