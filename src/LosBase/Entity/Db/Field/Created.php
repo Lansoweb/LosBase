@@ -11,14 +11,14 @@ trait Created
      *
      * @ORM\Column(type="datetime")
      * @Form\Exclude()
-     * @var DateTime
+     * @var \DateTime
      */
     protected $created = null;
 
     /**
      * Getter for $created
      *
-     * @return $created DateTime
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -28,8 +28,8 @@ trait Created
     /**
      * Setter for $created
      *
-     * @param  DateTime                         $created
-     * @return \LosBase\Entity\Db\Field\Created
+     * @param  \DateTime                         $created
+     * @return \LosBase\Entity\AbstractEntity
      */
     public function setCreated($created)
     {
