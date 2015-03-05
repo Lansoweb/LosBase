@@ -17,6 +17,42 @@ namespace LosBase\Service;
 class Uuid
 {
     /**
+     * Generates v3 or v5 UUIDs
+     * @param string $namespace
+     * @param string $name
+     * @param int $version
+     * @return boolean|string
+     */
+    private static function generateVersion($namespace, $name, $version)
+    {
+        if(!self::isValid($namespace)) return false;
+
+        $nhex = str_replace(array('-','{','}'), '', $namespace);
+        $nstr = '';
+        $len = strlen($nhex);
+
+        for ($i = 0; $i < $len; $i+=2) {
+            $nstr .= chr(hexdec($nhex[$i].$nhex[$i+1]));
+        }
+
+        if ($version == 3) {
+            $hash = md5($nstr . $name);
+            $digit = 0x3000;
+        } else {
+            $hash = sha1($nstr . $name);
+            $digit = 0x5000;
+        }
+
+        return sprintf('%08s-%04s-%04x-%04x-%12s',
+            substr($hash, 0, 8),
+            substr($hash, 8, 4),
+            (hexdec(substr($hash, 12, 4)) & 0x0fff) | $digit,
+            (hexdec(substr($hash, 16, 4)) & 0x3fff) | 0x8000,
+            substr($hash, 20, 12)
+        );
+    }
+
+    /**
      * Generate v3 UUID
      *
      * Version 3 UUIDs are named based. They require a namespace (another
@@ -28,25 +64,7 @@ class Uuid
      */
     public static function v3($namespace, $name)
     {
-        if(!self::is_valid($namespace)) return false;
-
-        $nhex = str_replace(array('-','{','}'), '', $namespace);
-
-        $nstr = '';
-
-        for ($i = 0; $i < strlen($nhex); $i+=2) {
-            $nstr .= chr(hexdec($nhex[$i].$nhex[$i+1]));
-        }
-
-        $hash = md5($nstr . $name);
-
-        return sprintf('%08s-%04s-%04x-%04x-%12s',
-            substr($hash, 0, 8),
-            substr($hash, 8, 4),
-            (hexdec(substr($hash, 12, 4)) & 0x0fff) | 0x3000,
-            (hexdec(substr($hash, 16, 4)) & 0x3fff) | 0x8000,
-            substr($hash, 20, 12)
-        );
+        return self::generateVersion($namespace, $name, 3);
     }
 
     /**
@@ -78,28 +96,16 @@ class Uuid
      */
     public static function v5($namespace, $name)
     {
-        if(!self::is_valid($namespace)) return false;
-
-        $nhex = str_replace(array('-','{','}'), '', $namespace);
-
-        $nstr = '';
-
-        for ($i = 0; $i < strlen($nhex); $i+=2) {
-            $nstr .= chr(hexdec($nhex[$i].$nhex[$i+1]));
-        }
-
-        $hash = sha1($nstr . $name);
-
-        return sprintf('%08s-%04s-%04x-%04x-%12s',
-            substr($hash, 0, 8),
-            substr($hash, 8, 4),
-            (hexdec(substr($hash, 12, 4)) & 0x0fff) | 0x5000,
-            (hexdec(substr($hash, 16, 4)) & 0x3fff) | 0x8000,
-            substr($hash, 20, 12)
-        );
+        return self::generateVersion($namespace, $name, 5);
     }
 
-    public static function is_valid($uuid)
+    /**
+     * Validates an Uuid string
+     *
+     * @param string $uuid
+     * @return boolean
+     */
+    public static function isValid($uuid)
     {
         return preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
                       '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', $uuid) === 1;

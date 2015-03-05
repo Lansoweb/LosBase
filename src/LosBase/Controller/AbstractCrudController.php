@@ -86,29 +86,29 @@ abstract class AbstractCrudController extends AbstractActionController
         return $this->entityService;
     }
 
+    protected function getModuleName()
+    {
+        $module_array = explode('\\', get_class($this));
+        return $module_array[0];
+    }
+
     /**
      * Nome da rota raiz do controlador
      */
     public function getRouteName()
     {
-        $module_array = explode('\\', get_class($this));
-        $module = $module_array[0];
-
-        return strtolower($module);
+        return strtolower($this->getModuleName());
     }
 
     public function getEntityClass()
     {
-        $module_array = explode('\\', get_class($this));
-        $module = $module_array[0];
-
+        $module = $this->getModuleName();
         return "$module\Entity\\$module";
     }
 
     public function getEntityServiceClass()
     {
-        $module_array = explode('\\', get_class($this));
-        $module = $module_array[0];
+        $module = $this->getModuleName();
 
         return "$module\Service\\$module";
     }
