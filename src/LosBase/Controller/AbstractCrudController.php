@@ -89,6 +89,7 @@ abstract class AbstractCrudController extends AbstractActionController
     protected function getModuleName()
     {
         $module_array = explode('\\', get_class($this));
+
         return $module_array[0];
     }
 
@@ -103,6 +104,7 @@ abstract class AbstractCrudController extends AbstractActionController
     public function getEntityClass()
     {
         $module = $this->getModuleName();
+
         return "$module\Entity\\$module";
     }
 

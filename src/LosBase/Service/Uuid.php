@@ -18,28 +18,30 @@ class Uuid
 {
     /**
      * Generates v3 or v5 UUIDs
-     * @param string $namespace
-     * @param string $name
-     * @param int $version
+     * @param  string         $namespace
+     * @param  string         $name
+     * @param  int            $version
      * @return boolean|string
      */
     private static function generateVersion($namespace, $name, $version)
     {
-        if(!self::isValid($namespace)) return false;
+        if (!self::isValid($namespace)) {
+            return false;
+        }
 
-        $nhex = str_replace(array('-','{','}'), '', $namespace);
+        $nhex = str_replace(array('-', '{', '}'), '', $namespace);
         $nstr = '';
         $len = strlen($nhex);
 
-        for ($i = 0; $i < $len; $i+=2) {
+        for ($i = 0; $i < $len; $i += 2) {
             $nstr .= chr(hexdec($nhex[$i].$nhex[$i+1]));
         }
 
         if ($version == 3) {
-            $hash = md5($nstr . $name);
+            $hash = md5($nstr.$name);
             $digit = 0x3000;
         } else {
-            $hash = sha1($nstr . $name);
+            $hash = sha1($nstr.$name);
             $digit = 0x5000;
         }
 
@@ -102,7 +104,7 @@ class Uuid
     /**
      * Validates an Uuid string
      *
-     * @param string $uuid
+     * @param  string  $uuid
      * @return boolean
      */
     public static function isValid($uuid)
