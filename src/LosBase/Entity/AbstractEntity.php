@@ -28,7 +28,7 @@ use Zend\Form\Annotation as Form;
  * @ORM\MappedSuperclass
  * @Form\Name("entity") Not necessary, but there must be at least one line with Form to use the "use" statement without complains from IDE and cs-fixer
  */
-abstract class AbstractEntity
+abstract class AbstractEntity implements BaseEntityInterface
 {
     use Db\Field\Id, Db\Field\Created, Db\Field\Updated;
 
