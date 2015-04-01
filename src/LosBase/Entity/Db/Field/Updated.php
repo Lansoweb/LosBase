@@ -28,7 +28,7 @@ trait Updated
     /**
      * Setter for $updated
      *
-     * @param  \DateTime                         $updated
+     * @param  \DateTime                      $updated
      * @return \LosBase\Entity\AbstractEntity
      */
     public function setUpdated($updated)

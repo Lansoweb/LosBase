@@ -28,7 +28,7 @@ trait Created
     /**
      * Setter for $created
      *
-     * @param  \DateTime                         $created
+     * @param  \DateTime                      $created
      * @return \LosBase\Entity\AbstractEntity
      */
     public function setCreated($created)
