@@ -196,6 +196,9 @@ abstract class AbstractCrudController extends AbstractActionController
         $form->add([
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
+            'attributes' => [
+                'id' => 'csrf',    
+            ],
         ]);
 
         $submitElement = new \Zend\Form\Element\Button('submit');
