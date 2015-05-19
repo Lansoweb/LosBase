@@ -28,6 +28,20 @@ return [
                             ],
                         ],
                     ],
+                    'view' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/view[/:id]',
+                            'constraints' => [
+                                'id' => '[0-9]+',
+                            ],
+                            'defaults' => [
+                                'controller' => '__MODULENAME__\Controller\Crud',
+                                'action' => 'view',
+                                'id' => 0,
+                            ],
+                        ],
+                    ],
                     'add' => [
                         'type' => 'Literal',
                         'options' => [
@@ -102,6 +116,10 @@ return [
                             'list' => [
                                 'label' => 'List',
                                 'route' => '__MODULEDASHEDNAME__/list',
+                            ],
+                            'view' => [
+                                'label' => 'View',
+                                'route' => '__MODULEDASHEDNAME__/view',
                             ],
                             'add' => [
                                 'label' => 'Add',

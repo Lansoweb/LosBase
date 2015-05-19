@@ -286,6 +286,21 @@ abstract class AbstractCrudController extends AbstractActionController
         return $this->getRouteName().'/'.$action;
     }
 
+    public function viewAction()
+    {
+        $id = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('id', 0);
+
+        $em = $this->getEntityManager();
+        $objRepository = $em->getRepository($this->getEntityClass());
+        $entity = $objRepository->find($id);
+
+        return [
+            'entity' => $entity
+        ];
+    }
+
     public function addAction()
     {
         if (method_exists($this, 'getAddForm')) {
