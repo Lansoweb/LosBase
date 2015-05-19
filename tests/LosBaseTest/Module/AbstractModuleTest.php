@@ -8,7 +8,6 @@ use LosBaseTest\TestCase;
  */
 class AbstractModuleTest extends TestCase
 {
-
     /**
      *
      * @var AbstractModule

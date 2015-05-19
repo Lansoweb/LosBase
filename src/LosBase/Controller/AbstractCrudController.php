@@ -197,7 +197,7 @@ abstract class AbstractCrudController extends AbstractActionController
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
             'attributes' => [
-                'id' => 'csrf',    
+                'id' => 'csrf',
             ],
         ]);
 
@@ -414,7 +414,7 @@ abstract class AbstractCrudController extends AbstractActionController
             ];
         }
 
-        $this->getEventManager()->trigger('getForm', $this, [
+        $this->getEventManager()->trigger('edit', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
             'id' => $id,
