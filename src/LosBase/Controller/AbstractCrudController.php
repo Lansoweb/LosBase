@@ -304,7 +304,7 @@ abstract class AbstractCrudController extends AbstractActionController
         ];
     }
 
-    protected function needAddOther()
+    protected function needAddOther($form)
     {
         return false;
     }
@@ -358,7 +358,7 @@ abstract class AbstractCrudController extends AbstractActionController
             ->get('translator')
             ->translate($this->successAddMessage));
 
-        if ($this->needAddOther()) {
+        if ($this->needAddOther($form)) {
             $action = 'add';
         } else {
             $action = 'list';
