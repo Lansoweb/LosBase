@@ -304,6 +304,11 @@ abstract class AbstractCrudController extends AbstractActionController
         ];
     }
 
+    protected function needAddOther()
+    {
+        return false;
+    }
+
     public function addAction()
     {
         if (method_exists($this, 'getAddForm')) {
@@ -353,7 +358,12 @@ abstract class AbstractCrudController extends AbstractActionController
             ->get('translator')
             ->translate($this->successAddMessage));
 
-        return $this->redirect()->toRoute($this->getActionRoute('list'), [], true);
+        if ($this->needAddOther()) {
+            $action = 'add';
+        } else {
+            $action = 'list';
+        }
+        return $this->redirect()->toRoute($this->getActionRoute($action), [], true);
     }
 
     /**
