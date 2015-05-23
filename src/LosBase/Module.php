@@ -91,12 +91,12 @@ class Module implements AutoloaderProviderInterface,
     public function getConsoleUsage(Console $console)
     {
         $config = $this->sm->get('config');
-        if (!\array_key_exists('losbase', $config) || !\array_key_exists('enable_console', $config['losbase']) || !$config['losbase']['enable_console']) {
+        if (!array_key_exists('losbase', $config) || !array_key_exists('enable_console', $config['losbase']) || !$config['losbase']['enable_console']) {
             return;
         }
 
         return [
-            'los create crud <name> [<path>]' => 'Creates a new CRUD module',
+            'create crud <name> [<path>]' => 'Creates a new CRUD module',
         ];
     }
 }

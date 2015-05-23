@@ -363,6 +363,7 @@ abstract class AbstractCrudController extends AbstractActionController
         } else {
             $action = 'list';
         }
+
         return $this->redirect()->toRoute($this->getActionRoute($action), [], true);
     }
 

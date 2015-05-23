@@ -273,25 +273,6 @@ class AbstractCrudControllerTest extends TestCase
 
     public function addEntityManager()
     {
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $qb->expects($this->any())
-            ->method('add')
-            ->will($this->returnValue($qb));
-        $qb->expects($this->any())
-            ->method('orderBy')
-            ->will($this->returnValue($qb));
-        $qb->expects($this->any())
-            ->method('select')
-            ->will($this->returnValue($qb));
-        $qb->expects($this->any())
-            ->method('setFirstResult')
-            ->will($this->returnValue($qb));
-        $qb->expects($this->any())
-            ->method('setMaxResults')
-            ->will($this->returnValue($qb));
-
         $entity = new TestEntity();
         $rep = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
             ->disableOriginalConstructor()
@@ -300,15 +281,45 @@ class AbstractCrudControllerTest extends TestCase
             ->method('find')
             ->will($this->returnValue($entity));
 
+        $emConf = $this->getMockBuilder('Doctrine\ORM\Configuration')
+            ->disableOriginalConstructor()->getMock();
+        $emConf->expects($this->any())
+            ->method('getDefaultQueryHints')
+            ->will($this->returnValue([]));
+
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $em->expects($this->any())
-            ->method('createQueryBuilder')
-            ->will($this->returnValue($qb));
-        $em->expects($this->any())
             ->method('getRepository')
             ->will($this->returnValue($rep));
+        $em->expects($this->any())
+            ->method('getConfiguration')
+            ->will($this->returnValue($emConf));
+        $em->expects($this->any())
+            ->method('createQuery')
+            ->will($this->returnValue(new \Doctrine\ORM\Query($em)));
+
+        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', ['add', 'orderBy', 'select', 'setFirstResult', 'setMaxResults'], [$em]);
+        $qb->expects($this->any())
+        ->method('add')
+        ->will($this->returnValue($qb));
+        $qb->expects($this->any())
+        ->method('orderBy')
+        ->will($this->returnValue($qb));
+        $qb->expects($this->any())
+        ->method('select')
+        ->will($this->returnValue($qb));
+        $qb->expects($this->any())
+        ->method('setFirstResult')
+        ->will($this->returnValue($qb));
+        $qb->expects($this->any())
+        ->method('setMaxResults')
+        ->will($this->returnValue($qb));
+
+        $em->expects($this->any())
+        ->method('createQueryBuilder')
+        ->will($this->returnValue($qb));
 
         $this->controller->setEntityManager($em);
     }
