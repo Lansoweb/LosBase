@@ -319,6 +319,14 @@ abstract class AbstractCrudController extends AbstractActionController
 
         $classe = $this->getEntityClass();
         $entity = new $classe();
+
+        $this->getEventManager()->trigger('getForm', $this, [
+            'form' => $form,
+            'entityClass' => $this->getEntityClass(),
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         $form->bind($entity);
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
@@ -404,6 +412,14 @@ abstract class AbstractCrudController extends AbstractActionController
         $em = $this->getEntityManager();
         $objRepository = $em->getRepository($this->getEntityClass());
         $entity = $objRepository->find($id);
+
+        $this->getEventManager()->trigger('getForm', $this, [
+            'form' => $form,
+            'entityClass' => $this->getEntityClass(),
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         $form->bind($entity);
 
         $redirectUrl = $this->url()->fromRoute($this->getActionRoute(), [], true);
