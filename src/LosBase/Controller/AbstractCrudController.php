@@ -323,7 +323,7 @@ abstract class AbstractCrudController extends AbstractActionController
         $this->getEventManager()->trigger('getForm', $this, [
             'form' => $form,
             'entityClass' => $this->getEntityClass(),
-            'id' => $id,
+            'id' => 0,
             'entity' => $entity,
         ]);
 
