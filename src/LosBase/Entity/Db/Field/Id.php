@@ -10,7 +10,7 @@ trait Id
      * Id da entidade na tabela do banco de dados
      *
      * @ORM\Id
-     * @ORM\Column(type="integer");
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Form\Exclude()
      */
