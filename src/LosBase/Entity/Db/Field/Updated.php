@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Entity\Db\Field;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,16 +8,17 @@ use Zend\Form\Annotation as Form;
 trait Updated
 {
     /**
-     * Updated datetime
+     * Updated datetime.
      *
      * @ORM\Column(type="datetime")
      * @Form\Exclude()
+     *
      * @var \DateTime
      */
     protected $updated = null;
 
     /**
-     * Getter for $updated
+     * Getter for $updated.
      *
      * @return \DateTime
      */
@@ -26,9 +28,10 @@ trait Updated
     }
 
     /**
-     * Setter for $updated
+     * Setter for $updated.
      *
-     * @param  \DateTime                      $updated
+     * @param \DateTime $updated
+     *
      * @return \LosBase\Entity\AbstractEntity
      */
     public function setUpdated($updated)

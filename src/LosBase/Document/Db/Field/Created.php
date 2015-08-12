@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Document\Db\Field;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -7,16 +8,17 @@ use Zend\Form\Annotation as Form;
 trait Created
 {
     /**
-     * Created datetime
+     * Created datetime.
      *
      * @ODM\Date()
      * @Form\Exclude()
+     *
      * @var \DateTime
      */
     protected $created = null;
 
     /**
-     * Getter for $created
+     * Getter for $created.
      *
      * @return \DateTime
      */
@@ -26,9 +28,10 @@ trait Created
     }
 
     /**
-     * Setter for $created
+     * Setter for $created.
      *
-     * @param  \DateTime                      $created
+     * @param \DateTime $created
+     *
      * @return \LosBase\Document\AbstractEntity
      */
     public function setCreated($created)

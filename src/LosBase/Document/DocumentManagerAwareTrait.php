@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Document;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -6,13 +7,12 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 trait DocumentManagerAwareTrait
 {
     /**
-     *
      * @var \Doctrine\ODM\MongoDb\DocumentManager
      */
     private $dm;
 
     /**
-     * Seta o DocumentManager
+     * Seta o DocumentManager.
      *
      * @param \Doctrine\ODM\MongoDb\DocumentManager $dm
      */
@@ -22,7 +22,7 @@ trait DocumentManagerAwareTrait
     }
 
     /**
-     * Retorna o DocumentManager
+     * Retorna o DocumentManager.
      *
      * @return \Doctrine\ODM\MongoDb\DocumentManager
      */

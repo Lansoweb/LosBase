@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Entity\Db\Field;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,7 +8,7 @@ use Zend\Form\Annotation as Form;
 trait Id
 {
     /**
-     * Id da entidade na tabela do banco de dados
+     * Id da entidade na tabela do banco de dados.
      *
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned"=true})
@@ -17,7 +18,7 @@ trait Id
     protected $id;
 
     /**
-     * Getter id
+     * Getter id.
      *
      * @return int
      */
@@ -27,9 +28,10 @@ trait Id
     }
 
     /**
-     * Setter id
+     * Setter id.
      *
-     * @param  int                  $id
+     * @param int $id
+     *
      * @return \LosBase\Db\Field\Id
      */
     public function setId($id)

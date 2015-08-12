@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Entity;
 
 use Doctrine\ORM\EntityManager;
@@ -6,13 +7,12 @@ use Doctrine\ORM\EntityManager;
 trait EntityManagerAwareTrait
 {
     /**
-     *
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     /**
-     * Seta o EntityManager
+     * Seta o EntityManager.
      *
      * @param \Doctrine\ORM\EntityManager $em
      */
@@ -22,7 +22,7 @@ trait EntityManagerAwareTrait
     }
 
     /**
-     * Retorna o EntityManager
+     * Retorna o EntityManager.
      *
      * @return \Doctrine\ORM\EntityManager
      */

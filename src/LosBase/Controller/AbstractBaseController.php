@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Abstract Base Controller
+ * Abstract Base Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -15,12 +16,13 @@ namespace LosBase\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
- * Abstract Base Controller
+ * Abstract Base Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -52,7 +54,7 @@ abstract class AbstractBaseController extends AbstractActionController
     }
 
     /**
-     * Nome da rota raiz do controlador
+     * Nome da rota raiz do controlador.
      */
     public function getRouteName()
     {
@@ -70,7 +72,7 @@ abstract class AbstractBaseController extends AbstractActionController
     }
 
     /**
-     * Retorna uma rota para a ação especificada ou a atual
+     * Retorna uma rota para a ação especificada ou a atual.
      *
      * @param string $action
      */
@@ -95,7 +97,7 @@ abstract class AbstractBaseController extends AbstractActionController
         if (is_array($post) && array_key_exists('confirm', $post)) {
             $confirm = $post['confirm'];
 
-            if ($confirm == "1") {
+            if ($confirm == '1') {
                 return true;
             }
         }

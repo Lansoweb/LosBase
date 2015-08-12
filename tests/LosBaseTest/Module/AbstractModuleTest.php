@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\Module;
 
 use LosBaseTest\TestCase;
@@ -9,7 +10,6 @@ use LosBaseTest\TestCase;
 class AbstractModuleTest extends TestCase
 {
     /**
-     *
      * @var AbstractModule
      */
     private $AbstractModule;
@@ -38,7 +38,7 @@ class AbstractModuleTest extends TestCase
     }
 
     /**
-     * Tests AbstractModule->getAutoloaderConfig()
+     * Tests AbstractModule->getAutoloaderConfig().
      */
     public function testGetAutoloaderConfig()
     {

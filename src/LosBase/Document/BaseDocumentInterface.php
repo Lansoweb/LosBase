@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Document;
 
 interface BaseDocumentInterface

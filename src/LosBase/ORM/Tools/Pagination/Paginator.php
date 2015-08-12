@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\ORM\Tools\Pagination;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;

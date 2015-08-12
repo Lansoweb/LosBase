@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Definição de uma classe abstrata para as Entidades
+ * Definição de uma classe abstrata para as Entidades.
  *
- * @package   LosBase\Entity
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -16,12 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 
 /**
- * Definição de uma classe abstrata para as Entidades
+ * Definição de uma classe abstrata para as Entidades.
  *
- * @package   LosBase\Entity
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  *
@@ -33,7 +35,7 @@ abstract class AbstractEntity implements BaseEntityInterface
     use Db\Field\Id, Db\Field\Created, Db\Field\Updated;
 
     /**
-     * Construtor
+     * Construtor.
      */
     public function __construct()
     {

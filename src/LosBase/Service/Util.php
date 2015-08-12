@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Define alguns serviços úteis
+ * Define alguns serviços úteis.
  *
- * @package   LosBase\Service
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -15,12 +16,13 @@ namespace LosBase\Service;
 use Zend\Console\Console;
 
 /**
- * Define alguns serviços úteis
+ * Define alguns serviços úteis.
  *
- * @package   LosBase\Service
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -57,12 +59,12 @@ class Util
 
         $ips = [$remote];
 
-        if (! empty($_SERVER['HTTP_CLIENT_IP'])) {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
             if ($validator->isValid($ip)) {
                 $ips[2] = $ip;
             }
-        } elseif (! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
             if ($validator->isValid($ip)) {
                 $ips[1] = $ip;

@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\Assets\Controller;
 
 use LosBase\Controller\AbstractCrudController;

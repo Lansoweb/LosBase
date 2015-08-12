@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -22,7 +23,7 @@ class CreateController extends AbstractActionController
         if (empty($path)) {
             $path = '.';
         }
-        if (! file_exists("$path/module") || ! file_exists("$path/config/application.config.php")) {
+        if (!file_exists("$path/module") || !file_exists("$path/config/application.config.php")) {
             return $this->sendError("The path $path doesn't contain a ZF2 application. I cannot create a module here.");
         }
         if (file_exists("$path/module/$name")) {
@@ -40,19 +41,19 @@ class CreateController extends AbstractActionController
 
         $crudDir = __DIR__.'/../../../data/crud';
         $files = [
-            "config/module.config.php" => "config/module.config.php",
-            "autoload_classmap.php" => "autoload_classmap.php",
-            "autoload_function.php" => "autoload_function.php",
-            "autoload_register.php" => "autoload_register.php",
-            "Module.php" => "Module.php",
-            "src/$name/Controller/CrudController.php" => "src/LosCrudModule/Controller/CrudController.php",
-            "src/$name/Entity/$name.php" => "src/LosCrudModule/Entity/Entity.php",
-            "src/$name/Module.php" => "src/LosCrudModule/Module.php",
-            "src/$name/Service/$name.php" => "src/LosCrudModule/Service/Entity.php",
-            "view/$viewfolder/crud/add.phtml" => "view/los-crud-module/crud/add.phtml",
-            "view/$viewfolder/crud/delete.phtml" => "view/los-crud-module/crud/delete.phtml",
-            "view/$viewfolder/crud/edit.phtml" => "view/los-crud-module/crud/edit.phtml",
-            "view/$viewfolder/crud/list.phtml" => "view/los-crud-module/crud/list.phtml",
+            'config/module.config.php' => 'config/module.config.php',
+            'autoload_classmap.php' => 'autoload_classmap.php',
+            'autoload_function.php' => 'autoload_function.php',
+            'autoload_register.php' => 'autoload_register.php',
+            'Module.php' => 'Module.php',
+            "src/$name/Controller/CrudController.php" => 'src/LosCrudModule/Controller/CrudController.php',
+            "src/$name/Entity/$name.php" => 'src/LosCrudModule/Entity/Entity.php',
+            "src/$name/Module.php" => 'src/LosCrudModule/Module.php',
+            "src/$name/Service/$name.php" => 'src/LosCrudModule/Service/Entity.php',
+            "view/$viewfolder/crud/add.phtml" => 'view/los-crud-module/crud/add.phtml',
+            "view/$viewfolder/crud/delete.phtml" => 'view/los-crud-module/crud/delete.phtml',
+            "view/$viewfolder/crud/edit.phtml" => 'view/los-crud-module/crud/edit.phtml',
+            "view/$viewfolder/crud/list.phtml" => 'view/los-crud-module/crud/list.phtml',
         ];
 
         foreach ($files as $destFile => $origFile) {
@@ -61,7 +62,7 @@ class CreateController extends AbstractActionController
 
         // Add the module in application.config.php
         $application = require "$path/config/application.config.php";
-        if (! in_array($name, $application['modules'])) {
+        if (!in_array($name, $application['modules'])) {
             $application['modules'][] = $name;
             copy("$path/config/application.config.php", "$path/config/application.config.old");
             $content = <<<EOD

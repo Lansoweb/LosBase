@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Abstract CRUD Controller
+ * Abstract CRUD Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -26,12 +27,13 @@ use LosBase\Validator\NoOtherEntityExists;
 use LosBase\Controller\AbstractBaseController;
 
 /**
- * Abstract CRUD Controller
+ * Abstract CRUD Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -40,7 +42,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     use EntityManagerAwareTrait;
 
     /**
-     * Entity Service
+     * Entity Service.
      *
      * @var mixed
      */
@@ -49,16 +51,17 @@ abstract class AbstractCrudController extends AbstractBaseController
     protected $uniqueEntityMessage = null;
 
     /**
-     * Retorna o serviço da entidade
+     * Retorna o serviço da entidade.
      *
      * @throws \InvalidArgumentException
+     *
      * @return mixed
      */
     public function getEntityService()
     {
         if (null === $this->entityService) {
             $entityServiceClass = $this->getEntityServiceClass();
-            if (! class_exists($entityServiceClass)) {
+            if (!class_exists($entityServiceClass)) {
                 throw new \RuntimeException("Classe $entityServiceClass inexistente!");
             }
             $this->entityService = new $entityServiceClass();
@@ -128,7 +131,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Retorna a form para o cadastro da entidade
+     * Retorna a form para o cadastro da entidade.
      */
     public function getForm($entityClass = null)
     {
@@ -175,7 +178,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         ]);
         $submitElement->setLabel('Salvar');
         $form->add($submitElement, [
-            'priority' => - 100,
+            'priority' => -100,
         ]);
 
         $cancelarElement = new \Zend\Form\Element\Button('cancelar');
@@ -187,7 +190,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         ]);
         $cancelarElement->setLabel('Cancelar');
         $form->add($cancelarElement, [
-            'priority' => - 100,
+            'priority' => -100,
         ]);
 
         return $form;
@@ -198,7 +201,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Lista as entidades, suporte a paginação, ordenação e busca
+     * Lista as entidades, suporte a paginação, ordenação e busca.
      */
     public function listAction()
     {
@@ -251,7 +254,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         $entity = $objRepository->find($id);
 
         return [
-            'entity' => $entity
+            'entity' => $entity,
         ];
     }
 
@@ -301,7 +304,7 @@ abstract class AbstractCrudController extends AbstractBaseController
 
         $savedEntity = $this->getEntityService()->save($form, $entity);
 
-        if (! $savedEntity) {
+        if (!$savedEntity) {
             return [
                 'entityForm' => $form,
                 'entity' => $entity,
@@ -322,7 +325,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Altera uma entidade
+     * Altera uma entidade.
      */
     public function editAction()
     {
@@ -396,7 +399,7 @@ abstract class AbstractCrudController extends AbstractBaseController
 
         $savedEntity = $this->getEntityService()->save($form, $entity);
 
-        if (! $savedEntity) {
+        if (!$savedEntity) {
             return [
                 'entityForm' => $form,
                 'entity' => $entity,
@@ -455,5 +458,4 @@ abstract class AbstractCrudController extends AbstractBaseController
             'entity' => $entity,
         ];
     }
-
 }

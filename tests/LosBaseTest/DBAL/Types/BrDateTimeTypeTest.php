@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\DBAL\Types;
 
 use LosBaseTest\TestCase;
@@ -11,7 +12,6 @@ use LosBaseTest\DBAL\Mocks\MockPlatform;
 class BrDateTimeTypeTest extends TestCase
 {
     /**
-     *
      * @var UtcDateTimeType
      */
     private $BrDateTimeType;
@@ -43,7 +43,7 @@ class BrDateTimeTypeTest extends TestCase
     }
 
     /**
-     * Tests UtcDateTimeType->convertToDatabaseValue()
+     * Tests UtcDateTimeType->convertToDatabaseValue().
      */
     public function testConvertToDatabaseValue()
     {
@@ -52,7 +52,7 @@ class BrDateTimeTypeTest extends TestCase
     }
 
     /**
-     * Tests UtcDateTimeType->convertToPHPValue()
+     * Tests UtcDateTimeType->convertToPHPValue().
      */
     public function testConvertToPHPValue()
     {

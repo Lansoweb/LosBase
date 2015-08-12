@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Define os serviços básicos de entidade
+ * Define os serviços básicos de entidade.
  *
- * @package   LosBase\Service
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -17,12 +18,13 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use LosBase\EventManager\EventProvider;
 
 /**
- * Define os serviços básicos de entidade
+ * Define os serviços básicos de entidade.
  *
- * @package   LosBase\Service
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -36,7 +38,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
             'entity' => $entity,
             'form' => $form,
         ]);
-        if (! $form->isValid()) {
+        if (!$form->isValid()) {
             $this->getEventManager()->trigger(__FUNCTION__.'.invalid', $this, [
                 'entity' => $entity,
                 'form' => $form,
@@ -48,7 +50,7 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
         $entity = $form->getData();
         if ($entity->getId() > 0) {
             $entity = $em->merge($entity);
-            if (\method_exists($entity, "setUpdated")) {
+            if (\method_exists($entity, 'setUpdated')) {
                 $entity->setUpdated(new \DateTime('now'));
             }
         }
@@ -68,8 +70,8 @@ abstract class AbstractEntity extends EventProvider implements ServiceLocatorAwa
 
     public function delete($entity)
     {
-        if (! is_object($entity)) {
-            throw new \InvalidArgumentException(sprintf("Entity argument must be an object, %s given.", \gettype($entity)));
+        if (!is_object($entity)) {
+            throw new \InvalidArgumentException(sprintf('Entity argument must be an object, %s given.', \gettype($entity)));
         }
         $this->getEventManager()->trigger(__FUNCTION__.'.init', $this, [
             'entity' => $entity,

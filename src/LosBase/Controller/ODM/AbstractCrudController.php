@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Abstract CRUD Controller
+ * Abstract CRUD Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -25,12 +26,13 @@ use DoctrineMongoODMModule\Paginator\Adapter\DoctrinePaginator;
 use LosBase\Controller\AbstractBaseController;
 
 /**
- * Abstract CRUD Controller
+ * Abstract CRUD Controller.
  *
- * @package   LosBase\Controller
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -39,7 +41,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     use DocumentManagerAwareTrait;
 
     /**
-     * Document Service
+     * Document Service.
      *
      * @var mixed
      */
@@ -48,16 +50,17 @@ abstract class AbstractCrudController extends AbstractBaseController
     protected $uniqueDocumentMessage = null;
 
     /**
-     * Retorna o serviço do documento
+     * Retorna o serviço do documento.
      *
      * @throws \InvalidArgumentException
+     *
      * @return mixed
      */
     public function getDocumentService()
     {
         if (null === $this->documentService) {
             $documentServiceClass = $this->getDocumentServiceClass();
-            if (! class_exists($documentServiceClass)) {
+            if (!class_exists($documentServiceClass)) {
                 throw new \RuntimeException("Classe $documentServiceClass inexistente!");
             }
             $this->documentService = new $documentServiceClass();
@@ -127,7 +130,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Retorna a form para o cadastro do documento
+     * Retorna a form para o cadastro do documento.
      */
     public function getForm($documentClass = null)
     {
@@ -174,7 +177,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         ]);
         $submitElement->setLabel('Salvar');
         $form->add($submitElement, [
-            'priority' => - 100,
+            'priority' => -100,
         ]);
 
         $cancelarElement = new \Zend\Form\Element\Button('cancelar');
@@ -186,7 +189,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         ]);
         $cancelarElement->setLabel('Cancelar');
         $form->add($cancelarElement, [
-            'priority' => - 100,
+            'priority' => -100,
         ]);
 
         return $form;
@@ -197,7 +200,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Lista os documentos, suporte a paginação, ordenação e busca
+     * Lista os documentos, suporte a paginação, ordenação e busca.
      */
     public function listAction()
     {
@@ -249,7 +252,7 @@ abstract class AbstractCrudController extends AbstractBaseController
         $document = $objRepository->find($id);
 
         return [
-            'document' => $document
+            'document' => $document,
         ];
     }
 
@@ -299,7 +302,7 @@ abstract class AbstractCrudController extends AbstractBaseController
 
         $savedEntity = $this->getDocumentService()->save($form, $entity);
 
-        if (! $savedEntity) {
+        if (!$savedEntity) {
             return [
                 'entityForm' => $form,
                 'entity' => $entity,
@@ -320,7 +323,7 @@ abstract class AbstractCrudController extends AbstractBaseController
     }
 
     /**
-     * Altera uma entidade
+     * Altera uma entidade.
      */
     public function editAction()
     {
@@ -394,7 +397,7 @@ abstract class AbstractCrudController extends AbstractBaseController
 
         $savedEntity = $this->getDocumentService()->save($form, $entity);
 
-        if (! $savedEntity) {
+        if (!$savedEntity) {
             return [
                 'entityForm' => $form,
                 'entity' => $entity,
@@ -453,5 +456,4 @@ abstract class AbstractCrudController extends AbstractBaseController
             'entity' => $entity,
         ];
     }
-
 }

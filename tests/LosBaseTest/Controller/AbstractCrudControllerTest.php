@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\Controller;
 
 use LosBaseTest\Assets\Controller\CrudController;
@@ -46,7 +47,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getEntityService()
+     * Tests AbstractCrudController->getEntityService().
      */
     public function testGetEntityService()
     {
@@ -54,7 +55,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getRouteName()
+     * Tests AbstractCrudController->getRouteName().
      */
     public function testGetRouteName()
     {
@@ -62,7 +63,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getEntityClass()
+     * Tests AbstractCrudController->getEntityClass().
      */
     public function testGetEntityClass()
     {
@@ -70,7 +71,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getEntityServiceClass()
+     * Tests AbstractCrudController->getEntityServiceClass().
      */
     public function testGetEntityServiceClass()
     {
@@ -78,7 +79,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getForm()
+     * Tests AbstractCrudController->getForm().
      */
     public function testGetForm()
     {
@@ -93,7 +94,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->handleSearch()
+     * Tests AbstractCrudController->handleSearch().
      */
     public function testHandleSearch()
     {
@@ -104,7 +105,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->listAction()
+     * Tests AbstractCrudController->listAction().
      */
     public function testListAction()
     {
@@ -116,7 +117,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->getActionRoute()
+     * Tests AbstractCrudController->getActionRoute().
      */
     public function testGetActionRoute()
     {
@@ -124,7 +125,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->addAction()
+     * Tests AbstractCrudController->addAction().
      */
     public function testAddAction()
     {
@@ -152,7 +153,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->editAction()
+     * Tests AbstractCrudController->editAction().
      */
     public function testEditAction()
     {
@@ -181,7 +182,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->deleteAction()
+     * Tests AbstractCrudController->deleteAction().
      */
     public function testDeleteAction()
     {
@@ -215,7 +216,7 @@ class AbstractCrudControllerTest extends TestCase
     }
 
     /**
-     * Tests AbstractCrudController->indexAction()
+     * Tests AbstractCrudController->indexAction().
      */
     public function testIndexAction()
     {

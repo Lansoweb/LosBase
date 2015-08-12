@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest;
 
 class TestCase extends \PHPUnit_Framework_TestCase
@@ -12,7 +13,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
     public function setUpSm($globPath = null)
     {
-        $serviceManagerUtil   = new ServiceManagerTestCase();
+        $serviceManagerUtil = new ServiceManagerTestCase();
         $config = $serviceManagerUtil->getConfiguration();
         if ($globPath != null) {
             $config['module_listener_options']['config_glob_paths'] = [$globPath];

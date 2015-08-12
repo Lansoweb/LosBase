@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\Entity;
 
 use LosBaseTest\TestCase;

@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\Assets\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

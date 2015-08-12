@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBase\Entity;
 
 interface BaseEntityInterface

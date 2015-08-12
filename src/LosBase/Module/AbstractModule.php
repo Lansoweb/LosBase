@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Definição de uma classe abstrata para os módulos LosXX
+ * Definição de uma classe abstrata para os módulos LosXX.
  *
- * @package   LosBase\Module
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -16,19 +17,20 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\LocatorRegisteredInterface;
 
 /**
- * Definição de uma classe abstrata para os módulos LosXX
+ * Definição de uma classe abstrata para os módulos LosXX.
  *
- * @package     LosBase\Module
  * @author      Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link        http://leandrosilva.info Development Blog
  * @link        http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright   Copyright (c) 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license     http://leandrosilva.info/licenca-bsd New BSD license
  */
 abstract class AbstractModule implements AutoloaderProviderInterface, LocatorRegisteredInterface
 {
     /**
-     * Retorna o diretório atual
+     * Retorna o diretório atual.
      */
     private function getDir()
     {
@@ -39,7 +41,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     }
 
     /**
-     * Retorna o namespace atual
+     * Retorna o namespace atual.
      */
     private function getNamespace()
     {
@@ -49,7 +51,7 @@ abstract class AbstractModule implements AutoloaderProviderInterface, LocatorReg
     }
 
     /**
-     * Configura os Autolodaers
+     * Configura os Autolodaers.
      *
      * @see \Zend\ModuleManager\Feature\AutoloaderProviderInterface::getAutoloaderConfig()
      */

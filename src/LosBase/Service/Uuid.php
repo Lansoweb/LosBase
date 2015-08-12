@@ -1,8 +1,9 @@
 <?php
+
 namespace LosBase\Service;
 
 /**
- * UUID class
+ * UUID class.
  *
  * The following class generates VALID RFC 4211 COMPLIANT
  * Universally Unique IDentifiers (UUID) version 3, 4 and 5.
@@ -12,16 +13,19 @@ namespace LosBase\Service;
  * PHP implementation.
  *
  * @author Andrew Moore
+ *
  * @link http://www.php.net/manual/en/function.uniqid.php#94959
  */
 class Uuid
 {
     /**
-     * Generates v3 or v5 UUIDs
-     * @param  string         $namespace
-     * @param  string         $name
-     * @param  int            $version
-     * @return boolean|string
+     * Generates v3 or v5 UUIDs.
+     *
+     * @param string $namespace
+     * @param string $name
+     * @param int    $version
+     *
+     * @return bool|string
      */
     private static function generateVersion($namespace, $name, $version)
     {
@@ -34,7 +38,7 @@ class Uuid
         $len = strlen($nhex);
 
         for ($i = 0; $i < $len; $i += 2) {
-            $nstr .= chr(hexdec($nhex[$i].$nhex[$i+1]));
+            $nstr .= chr(hexdec($nhex[$i].$nhex[$i + 1]));
         }
 
         if ($version == 3) {
@@ -55,7 +59,7 @@ class Uuid
     }
 
     /**
-     * Generate v3 UUID
+     * Generate v3 UUID.
      *
      * Version 3 UUIDs are named based. They require a namespace (another
      * valid UUID) and a value (the name). Given the same namespace and
@@ -70,8 +74,7 @@ class Uuid
     }
 
     /**
-     *
-     * Generate v4 UUID
+     * Generate v4 UUID.
      *
      * Version 4 UUIDs are pseudo-random.
      */
@@ -87,7 +90,7 @@ class Uuid
     }
 
     /**
-     * Generate v5 UUID
+     * Generate v5 UUID.
      *
      * Version 5 UUIDs are named based. They require a namespace (another
      * valid UUID) and a value (the name). Given the same namespace and
@@ -102,10 +105,11 @@ class Uuid
     }
 
     /**
-     * Validates an Uuid string
+     * Validates an Uuid string.
      *
-     * @param  string  $uuid
-     * @return boolean
+     * @param string $uuid
+     *
+     * @return bool
      */
     public static function isValid($uuid)
     {

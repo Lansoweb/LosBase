@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Define uma classe de para validar que outra entidade não existe (outro id)
+ * Define uma classe de para validar que outra entidade não existe (outro id).
  *
- * @package   LosBase\Validator
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -16,12 +17,13 @@ use Zend\Validator\Exception\InvalidArgumentException;
 use DoctrineModule\Validator\NoObjectExists;
 
 /**
- * Define uma classe de para validar que outra entidade não existe (outro id)
+ * Define uma classe de para validar que outra entidade não existe (outro id).
  *
- * @package   LosBase\Validator
  * @author    Leandro Silva <leandro@leandrosilva.info>
+ *
  * @link      http://leandrosilva.info Development Blog
  * @link      http://github.com/LansoWeb/LosBase for the canonical source repository
+ *
  * @copyright 2011-2015 Leandro Silva (http://leandrosilva.info)
  * @license   http://leandrosilva.info/licenca-bsd New BSD license
  */
@@ -35,7 +37,7 @@ class NoOtherEntityExists extends NoObjectExists
     {
         parent::__construct($options);
 
-        if (! isset($options['id'])) {
+        if (!isset($options['id'])) {
             throw new InvalidArgumentException('Chave "id" deve ser especificada na procura por outras entidades');
         }
         if (isset($options['additionalFields'])) {
@@ -50,7 +52,7 @@ class NoOtherEntityExists extends NoObjectExists
         if (null !== $this->additionalFields && is_array($context)) {
             $value = (array) $value;
             foreach ($this->additionalFields as $field) {
-                if (! isset($context[$field])) {
+                if (!isset($context[$field])) {
                     throw new InvalidArgumentException('Campo "'.$field.'"não especificado em additionalFields');
                 }
                 $value[] = $context[$field];

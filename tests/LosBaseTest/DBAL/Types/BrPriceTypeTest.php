@@ -1,4 +1,5 @@
 <?php
+
 namespace LosBaseTest\DBAL\Types;
 
 use LosBaseTest\TestCase;
@@ -11,7 +12,6 @@ use LosBaseTest\DBAL\Mocks\MockPlatform;
 class BrPriceTypeTest extends TestCase
 {
     /**
-     *
      * @var BrPriceType
      */
     private $BrPriceType;
@@ -43,7 +43,7 @@ class BrPriceTypeTest extends TestCase
     }
 
     /**
-     * Tests BrPriceType->convertToDatabaseValue()
+     * Tests BrPriceType->convertToDatabaseValue().
      */
     public function testConvertToDatabaseValue()
     {
@@ -51,7 +51,7 @@ class BrPriceTypeTest extends TestCase
     }
 
     /**
-     * Tests BrPriceType->convertToPHPValue()
+     * Tests BrPriceType->convertToPHPValue().
      */
     public function testConvertToPHPValue()
     {
@@ -59,7 +59,7 @@ class BrPriceTypeTest extends TestCase
     }
 
     /**
-     * Tests BrPriceType->getSQLDeclaration()
+     * Tests BrPriceType->getSQLDeclaration().
      */
     public function testGetSQLDeclaration()
     {
